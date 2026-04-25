@@ -46,6 +46,18 @@ const STORE_NAMES: Record<string, string> = {
 export default async function Page() {
   const deals = await getDeals();
 
+  const freeDeals = deals.filter((d) => parseFloat(d.salePrice) === 0).length;
+  const bestDiscount = deals.length
+    ? Math.max(...deals.map((d) => Math.round(parseFloat(d.savings))))
+    : 0;
+
+  const stats = [
+    { label: "Ofertas activas", value: `${deals.length}+` },
+    { label: "Juegos gratis", value: freeDeals > 0 ? String(freeDeals) : "0" },
+    { label: "Mejor descuento", value: `-${bestDiscount}%` },
+    { label: "Actualizado", value: "Cada hora" },
+  ];
+
   return (
     <div style={{ minHeight: "100vh", background: "#0a0a0a", color: "#85B7EB" }}>
 
@@ -88,18 +100,113 @@ export default async function Page() {
         </div>
       </nav>
 
-      {/* Hero compacto */}
-      <section style={{ padding: "40px 24px 32px", textAlign: "center" }}>
-        <p style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(133,183,235,0.35)", marginBottom: "12px" }}>
-          Steam · Ofertas en tiempo real
-        </p>
-        <h1 style={{ fontSize: "40px", fontWeight: 900, lineHeight: 1.15, letterSpacing: "-1px", marginBottom: "10px" }}>
-          <span style={{ color: "#fff" }}>Juegos baratos. </span>
-          <span style={{ color: "#85B7EB" }}>Sin excusas.</span>
-        </h1>
-        <p style={{ fontSize: "14px", color: "rgba(133,183,235,0.45)", maxWidth: "320px", margin: "0 auto" }}>
-          Las mejores ofertas de Steam. Todos bajo $20 USD.
-        </p>
+      {/* Hero */}
+      <section style={{
+        background: "#0d1b2e",
+        backgroundImage: "radial-gradient(rgba(133,183,235,0.07) 1px, transparent 1px)",
+        backgroundSize: "28px 28px",
+        borderBottom: "1px solid rgba(133,183,235,0.08)",
+        padding: "56px 24px 52px",
+      }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", alignItems: "center", gap: "48px" }}>
+
+          {/* Izquierda: copy + botones */}
+          <div style={{ flex: "1 1 0", minWidth: 0 }}>
+            {/* Badge */}
+            <span style={{
+              display: "inline-flex", alignItems: "center", gap: "6px",
+              background: "rgba(133,183,235,0.1)",
+              border: "1px solid rgba(133,183,235,0.2)",
+              borderRadius: "999px",
+              padding: "5px 14px",
+              fontSize: "12px", fontWeight: 600, color: "#85B7EB",
+              marginBottom: "22px",
+            }}>
+              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#85B7EB", display: "inline-block" }} />
+              Para el gamer latino en USA
+            </span>
+
+            {/* Título */}
+            <h1 style={{
+              fontSize: "clamp(32px, 4vw, 52px)",
+              fontWeight: 900,
+              lineHeight: 1.1,
+              letterSpacing: "-1.5px",
+              color: "#ffffff",
+              margin: "0 0 16px",
+            }}>
+              Las mejores ofertas<br />
+              <span style={{ color: "#85B7EB" }}>gaming en español</span>
+            </h1>
+
+            {/* Subtítulo */}
+            <p style={{
+              fontSize: "15px",
+              color: "rgba(133,183,235,0.55)",
+              margin: "0 0 32px",
+              lineHeight: 1.5,
+            }}>
+              Precios en dólares. Actualizado cada hora.
+            </p>
+
+            {/* Botones */}
+            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+              <a href="#deals" style={{
+                display: "inline-block",
+                padding: "11px 24px",
+                background: "#185FA5",
+                color: "#fff",
+                fontSize: "14px", fontWeight: 700,
+                borderRadius: "8px",
+                textDecoration: "none",
+                border: "1px solid #1e72c0",
+                transition: "background 0.15s",
+              }}>
+                Ver ofertas de hoy
+              </a>
+              <a href="#" style={{
+                display: "inline-block",
+                padding: "11px 24px",
+                background: "transparent",
+                color: "#85B7EB",
+                fontSize: "14px", fontWeight: 700,
+                borderRadius: "8px",
+                textDecoration: "none",
+                border: "1px solid rgba(133,183,235,0.35)",
+                transition: "border-color 0.15s",
+              }}>
+                Juegos gratis
+              </a>
+            </div>
+          </div>
+
+          {/* Derecha: stats */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "10px",
+            flexShrink: 0,
+            width: "280px",
+          }}>
+            {stats.map(({ label, value }) => (
+              <div key={label} style={{
+                background: "rgba(13,21,32,0.7)",
+                border: "1px solid rgba(133,183,235,0.1)",
+                borderRadius: "10px",
+                padding: "16px 14px",
+                backdropFilter: "blur(6px)",
+              }}>
+                <p style={{ fontSize: "22px", fontWeight: 800, color: "#ffffff", margin: "0 0 4px", lineHeight: 1 }}>
+                  {value}
+                </p>
+                <p style={{ fontSize: "11px", color: "rgba(133,183,235,0.45)", margin: 0, lineHeight: 1.3 }}>
+                  {label}
+                </p>
+              </div>
+            ))}
+          </div>
+
+        </div>
       </section>
 
       {/* Grid de deals */}
