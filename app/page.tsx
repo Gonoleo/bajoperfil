@@ -119,7 +119,7 @@ export default function Page() {
             textTransform: "uppercase", color: "rgba(255,255,255,0.45)",
             margin: "0 0 16px",
           }}>
-            Eventos gaming para el latino en USA
+            Eventos gaming en español
           </p>
           <h1 style={{
             fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900,
