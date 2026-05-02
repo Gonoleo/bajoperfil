@@ -263,20 +263,22 @@ export default function EventoDetail({
 
             {/* CTA */}
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-              <a
-                href={event.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: "inline-block", padding: "14px 32px",
-                  background: "#1a0533", color: "#ffffff",
-                  fontSize: "15px", fontWeight: 700,
-                  borderRadius: "10px", textDecoration: "none",
-                  flex: "1 1 auto", textAlign: "center",
-                }}
-              >
-                Más información →
-              </a>
+              {event.url && (
+                <a
+                  href={event.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "inline-block", padding: "14px 32px",
+                    background: "#1a0533", color: "#ffffff",
+                    fontSize: "15px", fontWeight: 700,
+                    borderRadius: "10px", textDecoration: "none",
+                    flex: "1 1 auto", textAlign: "center",
+                  }}
+                >
+                  Sitio oficial del evento →
+                </a>
+              )}
               <Link href="/" style={{
                 display: "inline-block", padding: "14px 24px",
                 background: "#ffffff", color: "#374151",
