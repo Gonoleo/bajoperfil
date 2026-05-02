@@ -161,14 +161,18 @@ export default function Page() {
               return (
                 <button
                   key={cat}
-                  onClick={() => setCategoryFilter(cat === "Todos" ? null : cat)}
+                  onClick={() => {
+                    setCategoryFilter(cat === "Todos" ? null : cat);
+                    document.getElementById("eventos")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
                   style={{
                     padding: "7px 16px", fontSize: "13px", fontWeight: 600,
-                    borderRadius: "999px", cursor: "pointer", border: "1px solid",
+                    borderRadius: "999px", cursor: "pointer", border: "2px solid",
                     background: active ? "#ffffff" : "rgba(255,255,255,0.08)",
                     color: active ? "#1a0533" : "rgba(255,255,255,0.7)",
-                    borderColor: active ? "#ffffff" : "rgba(255,255,255,0.2)",
+                    borderColor: active ? "#ffffff" : "rgba(255,255,255,0.15)",
                     transition: "all 0.15s",
+                    boxShadow: active ? "0 2px 8px rgba(0,0,0,0.25)" : "none",
                   }}
                 >
                   {cat}
@@ -179,12 +183,33 @@ export default function Page() {
         </div>
       </section>
 
+      {/* ── AdSense Top ── */}
+      {/* Aquí va el anuncio de AdSense */}
+      <div id="adsense-top" style={{
+        background: "#f5f5f5",
+        borderTop: "1px solid #ebebeb",
+        borderBottom: "1px solid #ebebeb",
+        padding: "12px 24px",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        minHeight: "90px",
+      }}>
+        <div style={{
+          width: "100%", maxWidth: "728px", minWidth: "min(728px, 100%)",
+          minHeight: "90px",
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}>
+          <span style={{ fontSize: "11px", color: "#c0c0c0", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+            Publicidad
+          </span>
+        </div>
+      </div>
+
       {/* ── Sección Eventos ── */}
-      <section style={{ background: "#ffffff", padding: "48px 24px" }}>
+      <section id="eventos" style={{ background: "#ffffff", padding: "48px 24px" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
             <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#111827", margin: 0 }}>
-              Próximos eventos en New York City
+              {categoryFilter ? `${categoryFilter} · New York City` : "Próximos eventos en New York City"}
             </h2>
             {!eventsLoading && (
               <span style={{ fontSize: "13px", color: "#6b7280" }}>
@@ -211,7 +236,12 @@ export default function Page() {
 
           {!eventsLoading && filteredEvents.length === 0 && (
             <div style={{ textAlign: "center", padding: "80px 0", color: "#9ca3af" }}>
-              <p style={{ fontSize: "15px", margin: 0 }}>No hay eventos próximos para estos filtros.</p>
+              <p style={{ fontSize: "15px", margin: "0 0 6px", fontWeight: 600, color: "#6b7280" }}>
+                {categoryFilter
+                  ? `No hay eventos de ${categoryFilter} por ahora.`
+                  : "No hay eventos próximos."}
+              </p>
+              <p style={{ fontSize: "14px", margin: 0 }}>Vuelve pronto.</p>
             </div>
           )}
 
@@ -290,6 +320,27 @@ export default function Page() {
           )}
         </div>
       </section>
+
+      {/* ── AdSense Bottom ── */}
+      {/* Aquí va el anuncio de AdSense */}
+      <div id="adsense-bottom" style={{
+        background: "#f5f5f5",
+        borderTop: "1px solid #ebebeb",
+        borderBottom: "1px solid #ebebeb",
+        padding: "12px 24px",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        minHeight: "90px",
+      }}>
+        <div style={{
+          width: "100%", maxWidth: "728px", minWidth: "min(728px, 100%)",
+          minHeight: "90px",
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}>
+          <span style={{ fontSize: "11px", color: "#c0c0c0", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+            Publicidad
+          </span>
+        </div>
+      </div>
 
       {/* ── Footer ── */}
       <footer style={{ background: "#1a0533", padding: "36px 24px", textAlign: "center" }}>
