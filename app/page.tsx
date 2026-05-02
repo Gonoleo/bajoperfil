@@ -2,17 +2,20 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
 type EventItem = {
   id: number | string;
   nombre: string;
   fecha: string;
+  hora: string | null;
+  lugar: string;
   ciudad: string;
-  venue: string;
+  categoria: string;
+  descripcion: string | null;
   url: string;
   imagen_url: string | null;
-  categoria: string;
 };
 
 const CATEGORY_PILLS = ["Todos", "Gaming", "Pokemon", "Comic Con", "Esports", "Trading Cards", "Nintendo"];
@@ -26,27 +29,20 @@ const CATEGORY_COLOR: Record<string, string> = {
   "Nintendo":      "#dc2626",
 };
 
-const CITIES = [
-  { label: "New York",    value: "NYC",     emoji: "🗽" },
-  { label: "Miami",       value: "Miami",   emoji: "🌴" },
-  { label: "Los Angeles", value: "LA",      emoji: "🎬" },
-  { label: "Chicago",     value: "Chicago", emoji: "🌆" },
-];
-
 export default function Page() {
   const [events, setEvents] = useState<EventItem[]>([]);
   const [eventsLoading, setEventsLoading] = useState(true);
-  const [cityFilter, setCityFilter] = useState<string | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     supabase
       .from("Eventos")
-      .select("*")
+      .select("id, nombre, fecha, hora, lugar, ciudad, categoria, descripcion, url, imagen_url")
       .order("fecha", { ascending: true })
       .then(({ data, error }) => {
         if (error) console.error("[eventos]", error.message);
+        if (data && data[0]) console.log("[eventos] campos del primer evento:", Object.keys(data[0]));
         setEvents(Array.isArray(data) ? data : []);
         setEventsLoading(false);
       });
@@ -54,14 +50,11 @@ export default function Page() {
 
   const filteredEvents = Array.isArray(events)
     ? events.filter((e) => {
-        if (cityFilter && e.ciudad !== cityFilter) return false;
         if (categoryFilter && e.categoria !== categoryFilter) return false;
         if (searchQuery.length >= 2 && !e.nombre.toLowerCase().includes(searchQuery.toLowerCase())) return false;
         return true;
       })
     : [];
-
-  const sectionTitle = cityFilter ? `Próximos eventos en ${cityFilter}` : "Próximos eventos";
 
   return (
     <div style={{ minHeight: "100vh", background: "#ffffff", color: "#1a1a1a" }}>
@@ -130,11 +123,17 @@ export default function Page() {
           </p>
           <h1 style={{
             fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900,
-            color: "#ffffff", lineHeight: 1.1, margin: "0 0 36px",
+            color: "#ffffff", lineHeight: 1.1, margin: "0 0 16px",
             letterSpacing: "-1.5px",
           }}>
             Encuentra tu próximo evento
           </h1>
+          <p style={{
+            fontSize: "14px", color: "rgba(255,255,255,0.5)",
+            margin: "0 0 36px", fontWeight: 500,
+          }}>
+            Torneos · Comic Con · Pokemon · Esports · New York City
+          </p>
 
           <div style={{ position: "relative", maxWidth: "560px", margin: "0 auto 32px" }}>
             <svg style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}
@@ -185,7 +184,7 @@ export default function Page() {
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
             <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#111827", margin: 0 }}>
-              {sectionTitle}
+              Próximos eventos en New York City
             </h2>
             {!eventsLoading && (
               <span style={{ fontSize: "13px", color: "#6b7280" }}>
@@ -221,11 +220,13 @@ export default function Page() {
               {filteredEvents.map((event) => {
                 const catColor = CATEGORY_COLOR[event.categoria] ?? "#6d28d9";
                 return (
-                  <article key={event.id} style={{
+                  <Link key={event.id} href={`/eventos/${event.id}`} style={{ textDecoration: "none" }}>
+                  <article style={{
                     background: "#ffffff", border: "1px solid #e5e7eb",
                     borderRadius: "12px", overflow: "hidden",
                     display: "flex", flexDirection: "column",
                     boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+                    cursor: "pointer", height: "100%",
                   }}>
                     <div style={{ height: "160px", position: "relative", background: "#f3f4f6", flexShrink: 0 }}>
                       {event.imagen_url ? (
@@ -263,60 +264,30 @@ export default function Page() {
                       }}>
                         {event.nombre}
                       </h3>
-                      {event.venue && (
+                      {event.lugar && (
                         <p style={{ fontSize: "12px", color: "#6b7280", margin: 0 }}>
-                          {event.venue} · {event.ciudad}
+                          {event.lugar} · New York City
                         </p>
                       )}
 
                       <div style={{ flex: 1 }} />
 
-                      <a href={event.url} target="_blank" rel="noopener noreferrer" style={{
+                      <div style={{
                         display: "block", textAlign: "center",
                         marginTop: "12px", padding: "10px 0",
                         background: "#1a0533", color: "#ffffff",
                         fontSize: "13px", fontWeight: 600,
-                        borderRadius: "8px", textDecoration: "none",
+                        borderRadius: "8px",
                       }}>
                         Ver evento →
-                      </a>
+                      </div>
                     </div>
                   </article>
+                  </Link>
                 );
               })}
             </div>
           )}
-        </div>
-      </section>
-
-      {/* ── Ciudades ── */}
-      <section style={{ background: "#f9fafb", padding: "48px 24px" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#111827", margin: "0 0 24px" }}>
-            Explorar por ciudad
-          </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px" }}>
-            {CITIES.map(({ label, value, emoji }) => (
-              <button
-                key={value}
-                onClick={() => setCityFilter(cityFilter === value ? null : value)}
-                style={{
-                  padding: "28px 16px", borderRadius: "12px", cursor: "pointer",
-                  border: cityFilter === value ? "2px solid #1a0533" : "1px solid #e5e7eb",
-                  background: cityFilter === value ? "#1a0533" : "#ffffff",
-                  color: cityFilter === value ? "#ffffff" : "#111827",
-                  textAlign: "center", transition: "all 0.15s",
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
-                }}
-              >
-                <div style={{ fontSize: "32px", marginBottom: "8px" }}>{emoji}</div>
-                <div style={{ fontSize: "16px", fontWeight: 700 }}>{label}</div>
-                <div style={{ fontSize: "12px", marginTop: "4px", opacity: 0.6 }}>
-                  {Array.isArray(events) ? events.filter((e) => e.ciudad === value).length : 0} eventos
-                </div>
-              </button>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -328,7 +299,7 @@ export default function Page() {
             background: "rgba(255,255,255,0.1)", borderRadius: "8px", padding: "4px 10px",
           }}>BP</span>
           <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", margin: "12px 0 0" }}>
-            BajoPerfil.gg · Eventos gaming para el latino en USA
+            BajoPerfil.gg · Eventos gaming en New York City
           </p>
         </div>
       </footer>
