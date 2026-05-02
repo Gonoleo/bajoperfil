@@ -42,7 +42,6 @@ export default function Page() {
       .order("fecha", { ascending: true })
       .then(({ data, error }) => {
         if (error) console.error("[eventos]", error.message);
-        if (data && data[0]) console.log("[eventos] campos del primer evento:", Object.keys(data[0]));
         setEvents(Array.isArray(data) ? data : []);
         setEventsLoading(false);
       });
@@ -50,7 +49,7 @@ export default function Page() {
 
   const filteredEvents = Array.isArray(events)
     ? events.filter((e) => {
-        if (categoryFilter && e.categoria !== categoryFilter) return false;
+        if (categoryFilter && e.categoria?.toLowerCase().trim() !== categoryFilter.toLowerCase().trim()) return false;
         if (searchQuery.length >= 2 && !e.nombre.toLowerCase().includes(searchQuery.toLowerCase())) return false;
         return true;
       })
@@ -235,13 +234,12 @@ export default function Page() {
           )}
 
           {!eventsLoading && filteredEvents.length === 0 && (
-            <div style={{ textAlign: "center", padding: "80px 0", color: "#9ca3af" }}>
-              <p style={{ fontSize: "15px", margin: "0 0 6px", fontWeight: 600, color: "#6b7280" }}>
+            <div style={{ textAlign: "center", padding: "80px 0" }}>
+              <p style={{ fontSize: "15px", margin: 0, color: "#6b7280" }}>
                 {categoryFilter
-                  ? `No hay eventos de ${categoryFilter} por ahora.`
-                  : "No hay eventos próximos."}
+                  ? `No hay eventos en esta categoría. Vuelve pronto.`
+                  : "No hay eventos próximos. Vuelve pronto."}
               </p>
-              <p style={{ fontSize: "14px", margin: 0 }}>Vuelve pronto.</p>
             </div>
           )}
 
