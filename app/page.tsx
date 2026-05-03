@@ -20,6 +20,10 @@ type EventItem = {
 
 const CATEGORY_PILLS = ["Todos", "Gaming", "Pokemon", "Comic Con", "Esports", "Trading Cards", "Nintendo"];
 
+function formatFecha(fecha: string): string {
+  return new Date(fecha + "T12:00:00").toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" }).replace(" de ", " ").replace(" de ", " ").replace(/[a-záéíóúüñ]+/i, (m) => m.charAt(0).toUpperCase() + m.slice(1));
+}
+
 const CATEGORY_COLOR: Record<string, string> = {
   "Gaming":        "#6d28d9",
   "Pokemon":       "#d97706",
@@ -47,12 +51,17 @@ export default function Page() {
       });
   }, []);
 
+  const today = new Date().toISOString().split("T")[0];
+
   const filteredEvents = Array.isArray(events)
-    ? events.filter((e) => {
-        if (categoryFilter && e.categoria?.toLowerCase().trim() !== categoryFilter.toLowerCase().trim()) return false;
-        if (searchQuery.length >= 2 && !e.nombre.toLowerCase().includes(searchQuery.toLowerCase())) return false;
-        return true;
-      })
+    ? events
+        .filter((e) => {
+          if (e.fecha < today) return false;
+          if (categoryFilter && e.categoria?.toLowerCase().trim() !== categoryFilter.toLowerCase().trim()) return false;
+          if (searchQuery.length >= 2 && !e.nombre.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+          return true;
+        })
+        .sort((a, b) => a.fecha.localeCompare(b.fecha))
     : [];
 
   return (
@@ -237,7 +246,7 @@ export default function Page() {
             <div style={{ textAlign: "center", padding: "80px 0" }}>
               <p style={{ fontSize: "15px", margin: 0, color: "#6b7280" }}>
                 {categoryFilter
-                  ? `No hay eventos en esta categoría. Vuelve pronto.`
+                  ? "No hay eventos próximos en esta categoría. Vuelve pronto."
                   : "No hay eventos próximos. Vuelve pronto."}
               </p>
             </div>
@@ -282,7 +291,7 @@ export default function Page() {
 
                     <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: "6px", flex: 1 }}>
                       <p style={{ fontSize: "12px", fontWeight: 600, color: "#ea580c", margin: 0 }}>
-                        {event.fecha}
+                        {formatFecha(event.fecha)}
                       </p>
                       <h3 style={{
                         fontSize: "15px", fontWeight: 700, color: "#111827",
@@ -349,6 +358,14 @@ export default function Page() {
           }}>BP</span>
           <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", margin: "12px 0 0" }}>
             BajoPerfil.gg · Eventos gaming en New York City
+          </p>
+          <p style={{ margin: "10px 0 0" }}>
+            <Link href="/politica-de-privacidad" style={{
+              fontSize: "12px", color: "rgba(255,255,255,0.3)",
+              textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.15)",
+            }}>
+              Política de Privacidad
+            </Link>
           </p>
         </div>
       </footer>

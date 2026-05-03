@@ -19,6 +19,10 @@ type EventDetail = {
   precio?: string | null;
 };
 
+function formatFecha(fecha: string): string {
+  return new Date(fecha + "T12:00:00").toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" }).replace(" de ", " ").replace(" de ", " ").replace(/[a-záéíóúüñ]+/i, (m) => m.charAt(0).toUpperCase() + m.slice(1));
+}
+
 const CATEGORY_COLOR: Record<string, string> = {
   "Gaming":        "#6d28d9",
   "Pokemon":       "#d97706",
@@ -193,7 +197,7 @@ export default function EventoDetail({
                 <div>
                   <p style={{ fontSize: "11px", fontWeight: 600, color: "#9ca3af", margin: "0 0 2px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Fecha</p>
                   <p style={{ fontSize: "15px", fontWeight: 600, color: "#111827", margin: 0 }}>
-                    {event.fecha}
+                    {formatFecha(event.fecha)}
                     {event.hora && <span style={{ color: "#6b7280", fontWeight: 400 }}> · {event.hora}</span>}
                   </p>
                 </div>
