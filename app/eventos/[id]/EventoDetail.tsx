@@ -77,7 +77,7 @@ export default function EventoDetail({
             background: "#1a0533", borderRadius: "8px", padding: "4px 10px",
             letterSpacing: "-0.5px",
           }}>BP</span>
-          <span style={{ fontSize: "14px", fontWeight: 600, color: "#1a0533" }}>BajoPerfil.gg</span>
+          <span style={{ fontSize: "14px", fontWeight: 600, color: "#1a0533" }}>BajoPerfil</span>
         </Link>
         <Link href="/" style={{
           display: "inline-flex", alignItems: "center", gap: "6px",

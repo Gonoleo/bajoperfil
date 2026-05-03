@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Política de Privacidad",
-  description: "Política de privacidad de BajoPerfil.gg. Información sobre recopilación de datos, cookies, Google Analytics y publicidad.",
+  description: "Política de privacidad de BajoPerfil. Información sobre recopilación de datos, cookies, Google Analytics y publicidad.",
 };
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
@@ -38,7 +38,7 @@ export default function PoliticaPrivacidad() {
             background: "#1a0533", borderRadius: "8px", padding: "4px 10px",
             letterSpacing: "-0.5px",
           }}>BP</span>
-          <span style={{ fontSize: "14px", fontWeight: 600, color: "#1a0533" }}>BajoPerfil.gg</span>
+          <span style={{ fontSize: "14px", fontWeight: 600, color: "#1a0533" }}>BajoPerfil</span>
         </Link>
         <Link href="/" style={{
           display: "inline-flex", alignItems: "center",
@@ -70,7 +70,7 @@ export default function PoliticaPrivacidad() {
       <main style={{ maxWidth: "760px", margin: "0 auto", padding: "48px 24px 80px" }}>
 
         <p style={{ fontSize: "15px", color: "#374151", lineHeight: 1.8, marginBottom: "40px" }}>
-          En <strong>BajoPerfil.gg</strong> nos tomamos tu privacidad en serio. Esta política explica qué información recopilamos cuando visitas nuestro sitio, cómo la usamos y cuáles son tus derechos.
+          En <strong>BajoPerfil</strong> nos tomamos tu privacidad en serio. Esta política explica qué información recopilamos cuando visitas nuestro sitio, cómo la usamos y cuáles son tus derechos.
         </p>
 
         <Section title="1. Información que recopilamos">
@@ -104,7 +104,7 @@ export default function PoliticaPrivacidad() {
 
         <Section title="4. Google AdSense y publicidad de terceros">
           <p style={{ margin: "0 0 12px" }}>
-            BajoPerfil.gg utiliza <strong>Google AdSense</strong> para mostrar publicidad. Google y sus socios pueden usar cookies para mostrar anuncios basados en tus visitas anteriores a este y otros sitios web.
+            BajoPerfil utiliza <strong>Google AdSense</strong> para mostrar publicidad. Google y sus socios pueden usar cookies para mostrar anuncios basados en tus visitas anteriores a este y otros sitios web.
           </p>
           <p style={{ margin: "0 0 12px" }}>
             Los anunciantes de terceros tienen sus propias políticas de privacidad independientes. No tenemos acceso ni control sobre las cookies que usan.
@@ -156,7 +156,7 @@ export default function PoliticaPrivacidad() {
             background: "rgba(255,255,255,0.1)", borderRadius: "8px", padding: "4px 10px",
           }}>BP</span>
           <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", margin: "12px 0 0" }}>
-            BajoPerfil.gg · Eventos gaming en New York City
+            BajoPerfil · Eventos gaming en New York City
           </p>
         </div>
       </footer>

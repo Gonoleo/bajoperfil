@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const description =
     event.descripcion ??
-    `Evento de ${event.categoria} en New York City · ${event.fecha}${event.lugar ? ` · ${event.lugar}` : ""}. Encuentra toda la información en BajoPerfil.gg.`;
+    `Evento de ${event.categoria} en New York City · ${event.fecha}${event.lugar ? ` · ${event.lugar}` : ""}. Encuentra toda la información en BajoPerfil.`;
 
   return {
     title: event.nombre,
@@ -43,10 +43,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       type: "website",
       locale: "es_US",
-      siteName: "BajoPerfil.gg",
+      siteName: "BajoPerfil",
       images: event.imagen_url
         ? [{ url: event.imagen_url, width: 800, height: 600, alt: event.nombre }]
-        : [{ url: "/og-image.png", width: 1200, height: 630, alt: "BajoPerfil.gg" }],
+        : [{ url: "/og-image.png", width: 1200, height: 630, alt: "BajoPerfil" }],
     },
     twitter: {
       card: "summary_large_image",

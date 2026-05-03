@@ -75,48 +75,15 @@ export default function Page() {
         display: "flex", alignItems: "center", justifyContent: "space-between",
         position: "sticky", top: 0, zIndex: 10,
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <span style={{
             fontSize: "20px", fontWeight: 900, color: "#ffffff",
             background: "#1a0533", borderRadius: "8px", padding: "4px 10px",
             letterSpacing: "-0.5px",
           }}>BP</span>
-          <span style={{ fontSize: "14px", fontWeight: 600, color: "#1a0533" }}>BajoPerfil.gg</span>
+          <span style={{ fontSize: "14px", fontWeight: 600, color: "#1a0533" }}>BajoPerfil</span>
         </div>
 
-        <div style={{ flex: 1, maxWidth: "480px", margin: "0 32px", position: "relative" }}>
-          <svg style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}
-            width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-          <input
-            type="text"
-            placeholder="Buscar eventos..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={{
-              width: "100%", boxSizing: "border-box",
-              background: "#f3f4f6", border: "1px solid #e5e7eb",
-              borderRadius: "8px", padding: "9px 36px",
-              color: "#1a1a1a", fontSize: "14px", outline: "none",
-            }}
-          />
-          {searchQuery && (
-            <button onClick={() => setSearchQuery("")} style={{
-              position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)",
-              background: "none", border: "none", cursor: "pointer",
-              color: "#9ca3af", fontSize: "18px", lineHeight: 1,
-            }}>×</button>
-          )}
-        </div>
-
-        <button style={{
-          padding: "9px 20px", background: "#1a0533", color: "#ffffff",
-          fontSize: "14px", fontWeight: 600, borderRadius: "8px", border: "none",
-          cursor: "pointer", flexShrink: 0,
-        }}>
-          Explorar
-        </button>
       </nav>
 
       {/* ── Hero ── */}
@@ -357,7 +324,7 @@ export default function Page() {
             background: "rgba(255,255,255,0.1)", borderRadius: "8px", padding: "4px 10px",
           }}>BP</span>
           <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", margin: "12px 0 0" }}>
-            BajoPerfil.gg · Eventos gaming en New York City
+            BajoPerfil · Eventos gaming en New York City
           </p>
           <p style={{ margin: "10px 0 0" }}>
             <Link href="/politica-de-privacidad" style={{

@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "BajoPerfil.gg - Eventos Gaming en Español",
-    template: "%s | BajoPerfil.gg",
+    default: "BajoPerfil - Eventos Gaming en Español",
+    template: "%s | BajoPerfil",
   },
   description:
     "Encuentra los mejores eventos gaming en New York City. Torneos Pokemon, Comic Con, Esports y más. Eventos gaming en español.",
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "es_US",
-    siteName: "BajoPerfil.gg",
-    title: "BajoPerfil.gg - Eventos Gaming en Español",
+    siteName: "BajoPerfil",
+    title: "BajoPerfil - Eventos Gaming en Español",
     description:
       "Encuentra los mejores eventos gaming en New York City. Torneos Pokemon, Comic Con, Esports y más.",
     images: [
@@ -39,13 +39,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "BajoPerfil.gg - Eventos Gaming NYC",
+        alt: "BajoPerfil - Eventos Gaming NYC",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "BajoPerfil.gg - Eventos Gaming en Español",
+    title: "BajoPerfil - Eventos Gaming en Español",
     description:
       "Encuentra los mejores eventos gaming en New York City. Torneos Pokemon, Comic Con, Esports y más.",
     images: ["/og-image.png"],
