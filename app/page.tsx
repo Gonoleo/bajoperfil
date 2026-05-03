@@ -326,11 +326,11 @@ export default function Page() {
           <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", margin: "12px 0 0" }}>
             BajoPerfil · Eventos gaming en New York City
           </p>
-          <p style={{ margin: "10px 0 0" }}>
-            <Link href="/politica-de-privacidad" style={{
-              fontSize: "12px", color: "rgba(255,255,255,0.3)",
-              textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.15)",
-            }}>
+          <p style={{ margin: "10px 0 0", display: "flex", gap: "16px", justifyContent: "center" }}>
+            <Link href="/acerca-de" style={{ fontSize: "12px", color: "rgba(255,255,255,0.3)", textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.15)" }}>
+              Acerca de
+            </Link>
+            <Link href="/politica-de-privacidad" style={{ fontSize: "12px", color: "rgba(255,255,255,0.3)", textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.15)" }}>
               Política de Privacidad
             </Link>
           </p>
