@@ -19,19 +19,20 @@ type EventItem = {
   imagen_url: string | null;
 };
 
-const CATEGORY_PILLS = ["Todos", "Gaming", "Pokemon", "Comic Con", "Esports", "Trading Cards", "Nintendo"];
+const CATEGORY_PILLS = ["Todos", "Gaming", "Pokemon", "Comic Con", "Esports", "Trading Cards", "Nintendo", "Anime"];
 
 function formatFecha(fecha: string): string {
   return new Date(fecha + "T12:00:00").toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" }).replace(" de ", " ").replace(" de ", " ").replace(/[a-záéíóúüñ]+/i, (m) => m.charAt(0).toUpperCase() + m.slice(1));
 }
 
 const CATEGORY_COLOR: Record<string, string> = {
-  "Gaming":        "#6d28d9",
-  "Pokemon":       "#d97706",
-  "Comic Con":     "#7c3aed",
-  "Esports":       "#059669",
-  "Trading Cards": "#ea580c",
-  "Nintendo":      "#dc2626",
+  "Gaming":        "#1a5fa5",
+  "Pokemon":       "#f5a623",
+  "Comic Con":     "#c0392b",
+  "Esports":       "#7d3c98",
+  "Trading Cards": "#2d7a4f",
+  "Nintendo":      "#e4000f",
+  "Anime":         "#e91e8c",
 };
 
 export default function Page() {
@@ -223,7 +224,7 @@ export default function Page() {
           {!eventsLoading && filteredEvents.length > 0 && (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
               {filteredEvents.map((event) => {
-                const catColor = CATEGORY_COLOR[event.categoria] ?? "#6d28d9";
+                const catColor = CATEGORY_COLOR[event.categoria] ?? "#1a5fa5";
                 return (
                   <Link key={event.id} href={`/eventos/${event.id}`} style={{ textDecoration: "none" }}>
                   <article style={{

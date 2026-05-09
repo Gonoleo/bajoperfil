@@ -25,12 +25,13 @@ function formatFecha(fecha: string): string {
 }
 
 const CATEGORY_COLOR: Record<string, string> = {
-  "Gaming":        "#6d28d9",
-  "Pokemon":       "#d97706",
-  "Comic Con":     "#7c3aed",
-  "Esports":       "#059669",
-  "Trading Cards": "#ea580c",
-  "Nintendo":      "#dc2626",
+  "Gaming":        "#1a5fa5",
+  "Pokemon":       "#f5a623",
+  "Comic Con":     "#c0392b",
+  "Esports":       "#7d3c98",
+  "Trading Cards": "#2d7a4f",
+  "Nintendo":      "#e4000f",
+  "Anime":         "#e91e8c",
 };
 
 export default function EventoDetail({
@@ -60,7 +61,7 @@ export default function EventoDetail({
       });
   }, [id]);
 
-  const catColor = event ? (CATEGORY_COLOR[event.categoria] ?? "#6d28d9") : "#6d28d9";
+  const catColor = event ? (CATEGORY_COLOR[event.categoria] ?? "#1a5fa5") : "#1a5fa5";
 
   return (
     <div style={{ minHeight: "100vh", background: "#ffffff", color: "#1a1a1a" }}>
