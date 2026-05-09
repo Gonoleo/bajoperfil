@@ -10,6 +10,7 @@ type EventDetail = {
   nombre: string;
   fecha: string;
   hora: string | null;
+  hora_fin: string | null;
   lugar: string;
   ciudad: string;
   categoria: string;
@@ -46,7 +47,7 @@ export default function EventoDetail({
     const parsedId = isNaN(Number(id)) ? id : Number(id);
     supabase
       .from("Eventos")
-      .select("id, nombre, fecha, hora, lugar, ciudad, categoria, descripcion, url, imagen_url")
+      .select("id, nombre, fecha, hora, hora_fin, lugar, ciudad, categoria, descripcion, url, imagen_url")
       .eq("id", parsedId)
       .single()
       .then(({ data, error }) => {
@@ -198,7 +199,11 @@ export default function EventoDetail({
                   <p style={{ fontSize: "11px", fontWeight: 600, color: "#9ca3af", margin: "0 0 2px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Fecha</p>
                   <p style={{ fontSize: "15px", fontWeight: 600, color: "#111827", margin: 0 }}>
                     {formatFecha(event.fecha)}
-                    {event.hora && <span style={{ color: "#6b7280", fontWeight: 400 }}> · {event.hora}</span>}
+                    {event.hora && (
+                      <span style={{ color: "#6b7280", fontWeight: 400 }}>
+                        {" · "}{event.hora}{event.hora_fin ? ` - ${event.hora_fin}` : ""}
+                      </span>
+                    )}
                   </p>
                 </div>
               </div>

@@ -10,6 +10,7 @@ type EventItem = {
   nombre: string;
   fecha: string;
   hora: string | null;
+  hora_fin: string | null;
   lugar: string;
   ciudad: string;
   categoria: string;
@@ -42,7 +43,7 @@ export default function Page() {
   useEffect(() => {
     supabase
       .from("Eventos")
-      .select("id, nombre, fecha, hora, lugar, ciudad, categoria, descripcion, url, imagen_url")
+      .select("id, nombre, fecha, hora, hora_fin, lugar, ciudad, categoria, descripcion, url, imagen_url")
       .order("fecha", { ascending: true })
       .then(({ data, error }) => {
         if (error) console.error("[eventos]", error.message);
@@ -259,6 +260,11 @@ export default function Page() {
                     <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: "6px", flex: 1 }}>
                       <p style={{ fontSize: "12px", fontWeight: 600, color: "#ea580c", margin: 0 }}>
                         {formatFecha(event.fecha)}
+                        {event.hora && (
+                          <span style={{ fontWeight: 400, color: "#f97316" }}>
+                            {" · "}{event.hora}{event.hora_fin ? ` - ${event.hora_fin}` : ""}
+                          </span>
+                        )}
                       </p>
                       <h3 style={{
                         fontSize: "15px", fontWeight: 700, color: "#111827",
