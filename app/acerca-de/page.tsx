@@ -13,7 +13,7 @@ export default function AcercaDe() {
       {/* ── Navbar ── */}
       <nav style={{
         background: "#ffffff", borderBottom: "1px solid #e5e7eb",
-        padding: "0 24px", height: "60px",
+        padding: "0 16px", height: "60px",
         display: "flex", alignItems: "center", justifyContent: "space-between",
         position: "sticky", top: 0, zIndex: 10,
       }}>

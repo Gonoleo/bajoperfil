@@ -5,6 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
+const detailStyles = `
+  .bp-detail-hero { width: 100%; height: 360px; position: relative; background: #f3f4f6; }
+  .bp-detail-content { max-width: 800px; margin: 0 auto; padding: 40px 24px 64px; }
+  @media (max-width: 639px) {
+    .bp-detail-hero { height: 220px; }
+    .bp-detail-content { padding: 28px 16px 48px; }
+  }
+`;
+
 type EventDetail = {
   id: number | string;
   nombre: string;
@@ -65,11 +74,12 @@ export default function EventoDetail({
 
   return (
     <div style={{ minHeight: "100vh", background: "#ffffff", color: "#1a1a1a" }}>
+      <style>{detailStyles}</style>
 
       {/* ── Navbar ── */}
       <nav style={{
         background: "#ffffff", borderBottom: "1px solid #e5e7eb",
-        padding: "0 24px", height: "60px",
+        padding: "0 16px", height: "60px",
         display: "flex", alignItems: "center", justifyContent: "space-between",
         position: "sticky", top: 0, zIndex: 10,
       }}>
@@ -126,13 +136,13 @@ export default function EventoDetail({
       {!loading && event && (
         <>
           {/* Hero image */}
-          <div style={{ width: "100%", height: "360px", position: "relative", background: "#f3f4f6" }}>
+          <div className="bp-detail-hero">
             {event.imagen_url ? (
               <Image
                 src={event.imagen_url}
                 alt={event.nombre}
                 fill
-                style={{ objectFit: "cover" }}
+                style={{ objectFit: "cover", objectPosition: "center" }}
                 unoptimized
                 priority
               />
@@ -152,7 +162,7 @@ export default function EventoDetail({
           </div>
 
           {/* Content */}
-          <div style={{ maxWidth: "800px", margin: "0 auto", padding: "40px 24px 64px" }}>
+          <div className="bp-detail-content">
 
             {/* Category badge */}
             <span style={{

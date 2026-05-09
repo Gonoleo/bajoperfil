@@ -35,6 +35,21 @@ const CATEGORY_COLOR: Record<string, string> = {
   "Anime":         "#e91e8c",
 };
 
+const responsiveStyles = `
+  .bp-hero { padding: 64px 24px 56px; }
+  .bp-events { padding: 48px 24px; }
+  .bp-events-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; gap: 8px; }
+  .bp-pills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  @media (max-width: 639px) {
+    .bp-hero { padding: 36px 16px 40px; }
+    .bp-events { padding: 28px 16px; }
+    .bp-events-header { flex-direction: column; align-items: flex-start; }
+    .bp-pills { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .bp-pills::-webkit-scrollbar { display: none; }
+    .bp-pills button { flex-shrink: 0; }
+  }
+`;
+
 export default function Page() {
   const [events, setEvents] = useState<EventItem[]>([]);
   const [eventsLoading, setEventsLoading] = useState(true);
@@ -68,13 +83,14 @@ export default function Page() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#ffffff", color: "#1a1a1a" }}>
+      <style>{responsiveStyles}</style>
 
       {/* ── Navbar ── */}
       <nav style={{
         background: "#ffffff",
         borderBottom: "1px solid #e5e7eb",
-        padding: "0 24px", height: "60px",
-        display: "flex", alignItems: "center", justifyContent: "space-between",
+        padding: "0 16px", height: "60px",
+        display: "flex", alignItems: "center",
         position: "sticky", top: 0, zIndex: 10,
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -85,34 +101,33 @@ export default function Page() {
           }}>BP</span>
           <span style={{ fontSize: "14px", fontWeight: 600, color: "#1a0533" }}>BajoPerfil</span>
         </div>
-
       </nav>
 
       {/* ── Hero ── */}
-      <section style={{ background: "#1a0533", padding: "64px 24px 56px" }}>
+      <section className="bp-hero" style={{ background: "#1a0533" }}>
         <div style={{ maxWidth: "720px", margin: "0 auto", textAlign: "center" }}>
           <p style={{
             fontSize: "11px", fontWeight: 700, letterSpacing: "0.15em",
             textTransform: "uppercase", color: "rgba(255,255,255,0.45)",
-            margin: "0 0 16px",
+            margin: "0 0 14px",
           }}>
             Eventos gaming en español
           </p>
           <h1 style={{
-            fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900,
-            color: "#ffffff", lineHeight: 1.1, margin: "0 0 16px",
-            letterSpacing: "-1.5px",
+            fontSize: "clamp(28px, 7vw, 56px)", fontWeight: 900,
+            color: "#ffffff", lineHeight: 1.1, margin: "0 0 12px",
+            letterSpacing: "-1px",
           }}>
             Encuentra tu próximo evento
           </h1>
           <p style={{
             fontSize: "14px", color: "rgba(255,255,255,0.5)",
-            margin: "0 0 36px", fontWeight: 500,
+            margin: "0 0 28px", fontWeight: 500,
           }}>
             Torneos · Comic Con · Pokemon · Esports · New York City
           </p>
 
-          <div style={{ position: "relative", maxWidth: "560px", margin: "0 auto 32px" }}>
+          <div style={{ position: "relative", maxWidth: "560px", margin: "0 auto 24px" }}>
             <svg style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}
               width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -132,7 +147,7 @@ export default function Page() {
             />
           </div>
 
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center" }}>
+          <div className="bp-pills">
             {CATEGORY_PILLS.map((cat) => {
               const active = cat === "Todos" ? !categoryFilter : categoryFilter === cat;
               return (
@@ -143,13 +158,14 @@ export default function Page() {
                     document.getElementById("eventos")?.scrollIntoView({ behavior: "smooth", block: "start" });
                   }}
                   style={{
-                    padding: "7px 16px", fontSize: "13px", fontWeight: 600,
+                    padding: "9px 16px", fontSize: "13px", fontWeight: 600,
                     borderRadius: "999px", cursor: "pointer", border: "2px solid",
                     background: active ? "#ffffff" : "rgba(255,255,255,0.08)",
                     color: active ? "#1a0533" : "rgba(255,255,255,0.7)",
                     borderColor: active ? "#ffffff" : "rgba(255,255,255,0.15)",
                     transition: "all 0.15s",
                     boxShadow: active ? "0 2px 8px rgba(0,0,0,0.25)" : "none",
+                    minHeight: "40px",
                   }}
                 >
                   {cat}
@@ -161,12 +177,11 @@ export default function Page() {
       </section>
 
       {/* ── AdSense Top ── */}
-      {/* Aquí va el anuncio de AdSense */}
       <div id="adsense-top" style={{
         background: "#f5f5f5",
         borderTop: "1px solid #ebebeb",
         borderBottom: "1px solid #ebebeb",
-        padding: "12px 24px",
+        padding: "12px 16px",
         display: "flex", alignItems: "center", justifyContent: "center",
         minHeight: "90px",
       }}>
@@ -182,29 +197,29 @@ export default function Page() {
       </div>
 
       {/* ── Sección Eventos ── */}
-      <section id="eventos" style={{ background: "#ffffff", padding: "48px 24px" }}>
+      <section id="eventos" className="bp-events" style={{ background: "#ffffff" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
-            <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#111827", margin: 0 }}>
+          <div className="bp-events-header">
+            <h2 style={{ fontSize: "clamp(18px, 4vw, 22px)", fontWeight: 800, color: "#111827", margin: 0 }}>
               {categoryFilter ? `${categoryFilter} · New York City` : "Próximos eventos en New York City"}
             </h2>
             {!eventsLoading && (
-              <span style={{ fontSize: "13px", color: "#6b7280" }}>
+              <span style={{ fontSize: "13px", color: "#6b7280", flexShrink: 0 }}>
                 {filteredEvents.length} evento{filteredEvents.length !== 1 ? "s" : ""}
               </span>
             )}
           </div>
 
           {eventsLoading && (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} style={{ background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: "12px", overflow: "hidden" }}>
-                  <div className="animate-pulse" style={{ height: "160px", background: "#e5e7eb" }} />
+                  <div className="animate-pulse" style={{ height: "180px", background: "#e5e7eb" }} />
                   <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: "10px" }}>
                     <div className="animate-pulse" style={{ height: "12px", background: "#e5e7eb", borderRadius: "4px", width: "40%" }} />
                     <div className="animate-pulse" style={{ height: "16px", background: "#e5e7eb", borderRadius: "4px", width: "85%" }} />
                     <div className="animate-pulse" style={{ height: "12px", background: "#e5e7eb", borderRadius: "4px", width: "60%" }} />
-                    <div className="animate-pulse" style={{ height: "36px", background: "#e5e7eb", borderRadius: "8px", marginTop: "8px" }} />
+                    <div className="animate-pulse" style={{ height: "44px", background: "#e5e7eb", borderRadius: "8px", marginTop: "8px" }} />
                   </div>
                 </div>
               ))}
@@ -222,7 +237,7 @@ export default function Page() {
           )}
 
           {!eventsLoading && filteredEvents.length > 0 && (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {filteredEvents.map((event) => {
                 const catColor = CATEGORY_COLOR[event.categoria] ?? "#1a5fa5";
                 return (
@@ -234,10 +249,10 @@ export default function Page() {
                     boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
                     cursor: "pointer", height: "100%",
                   }}>
-                    <div style={{ height: "160px", position: "relative", background: "#f3f4f6", flexShrink: 0 }}>
+                    <div style={{ height: "180px", position: "relative", background: "#f3f4f6", flexShrink: 0 }}>
                       {event.imagen_url ? (
                         <Image src={event.imagen_url} alt={event.nombre} fill
-                          style={{ objectFit: "cover" }} unoptimized />
+                          style={{ objectFit: "cover", objectPosition: "center" }} unoptimized />
                       ) : (
                         <div style={{
                           width: "100%", height: "100%",
@@ -259,7 +274,7 @@ export default function Page() {
                     </div>
 
                     <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: "6px", flex: 1 }}>
-                      <p style={{ fontSize: "12px", fontWeight: 600, color: "#ea580c", margin: 0 }}>
+                      <p style={{ fontSize: "13px", fontWeight: 600, color: "#ea580c", margin: 0 }}>
                         {formatFecha(event.fecha)}
                         {event.hora && (
                           <span style={{ fontWeight: 400, color: "#f97316" }}>
@@ -276,7 +291,7 @@ export default function Page() {
                         {event.nombre}
                       </h3>
                       {event.lugar && (
-                        <p style={{ fontSize: "12px", color: "#6b7280", margin: 0 }}>
+                        <p style={{ fontSize: "13px", color: "#6b7280", margin: 0 }}>
                           {event.lugar} · New York City
                         </p>
                       )}
@@ -285,9 +300,9 @@ export default function Page() {
 
                       <div style={{
                         display: "block", textAlign: "center",
-                        marginTop: "12px", padding: "10px 0",
+                        marginTop: "12px", padding: "13px 0",
                         background: "#1a0533", color: "#ffffff",
-                        fontSize: "13px", fontWeight: 600,
+                        fontSize: "14px", fontWeight: 600,
                         borderRadius: "8px",
                       }}>
                         Ver evento →
@@ -303,12 +318,11 @@ export default function Page() {
       </section>
 
       {/* ── AdSense Bottom ── */}
-      {/* Aquí va el anuncio de AdSense */}
       <div id="adsense-bottom" style={{
         background: "#f5f5f5",
         borderTop: "1px solid #ebebeb",
         borderBottom: "1px solid #ebebeb",
-        padding: "12px 24px",
+        padding: "12px 16px",
         display: "flex", alignItems: "center", justifyContent: "center",
         minHeight: "90px",
       }}>
