@@ -37,7 +37,7 @@ export default function LocationsMap() {
   const [selected, setSelected] = useState(null);
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
   });
 
   useEffect(() => {
