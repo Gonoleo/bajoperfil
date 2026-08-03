@@ -15,7 +15,7 @@ const CATEGORIES = [
 const responsiveStyles = ".bp-hero { padding: 56px 24px 32px; } .bp-search-wrap { max-width: 480px; margin: 0 auto 24px; padding: 0 24px; } .bp-pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 24px 32px; } @media (max-width: 640px) { .bp-hero { padding: 36px 16px 24px; } .bp-search-wrap { padding: 0 16px; } .bp-pills { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding: 0 16px 24px; -webkit-overflow-scrolling: touch; } .bp-pills button { flex-shrink: 0; } .bp-map-section { padding: 0 12px 40px !important; } }";
 
 export default function HomePage() {
-  const [categoryFilter, setCategoryFilter] = useState(null);
+  const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
