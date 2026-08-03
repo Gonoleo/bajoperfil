@@ -14,7 +14,7 @@ const centerNYC = {
   lng: -74.006,
 };
 
-const CATEGORY_LABELS: Record<string, string> = {
+const CATEGORY_LABELS = {
   arcade: 'Arcade',
   tienda_retro: 'Tienda Retro',
   tcg_mesa: 'Cartas y Mesa',
@@ -23,7 +23,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   comic_gaming: 'Comics Gaming',
 };
 
-const CATEGORY_COLORS: Record<string, string> = {
+const CATEGORY_COLORS = {
   arcade: '#ff2e88',
   tienda_retro: '#2ee6d6',
   tcg_mesa: '#f5a623',
@@ -32,20 +32,9 @@ const CATEGORY_COLORS: Record<string, string> = {
   comic_gaming: '#e91e8c',
 };
 
-type Location = {
-  id: string;
-  nombre: string;
-  categoria: string;
-  direccion: string;
-  lat: number;
-  lng: number;
-  descripcion: string | null;
-  imagen_url: string | null;
-};
-
-export default function LocationsMap() {
-  const [locations, setLocations] = useState<Location[]>([]);
-  const [selected, setSelected] = useState<Location | null>(null);
+export default function LocationsMap({ categoryFilter, searchQuery }) {
+  const [locations, setLocations] = useState([]);
+  const [selected, setSelected] = useState(null);
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
@@ -63,7 +52,7 @@ export default function LocationsMap() {
         return;
       }
 
-      const valid = (data as Location[]).filter(
+      const valid = data.filter(
         (loc) => typeof loc.lat === 'number' && typeof loc.lng === 'number'
       );
       setLocations(valid);
@@ -71,11 +60,17 @@ export default function LocationsMap() {
     fetchLocations();
   }, []);
 
+  const filtered = locations.filter((loc) => {
+    if (categoryFilter && loc.categoria !== categoryFilter) return false;
+    if (searchQuery && searchQuery.trim().length >= 2 && !loc.nombre.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+    return true;
+  });
+
   if (!isLoaded) return <p style={{ padding: '24px', color: '#9a8fc2' }}>Cargando mapa...</p>;
 
   return (
     <GoogleMap mapContainerStyle={containerStyle} center={centerNYC} zoom={11}>
-      {locations.map((loc) => (
+      {filtered.map((loc) => (
         <Marker
           key={loc.id}
           position={{ lat: loc.lat, lng: loc.lng }}
