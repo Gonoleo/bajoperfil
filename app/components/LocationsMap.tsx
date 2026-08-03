@@ -14,7 +14,7 @@ const centerNYC = {
   lng: -74.006,
 };
 
-const CATEGORY_LABELS = {
+const CATEGORY_LABELS: Record<string, string> = {
   arcade: 'Arcade',
   tienda_retro: 'Tienda Retro',
   tcg_mesa: 'Cartas y Mesa',
@@ -23,7 +23,7 @@ const CATEGORY_LABELS = {
   comic_gaming: 'Comics Gaming',
 };
 
-const CATEGORY_COLORS = {
+const CATEGORY_COLORS: Record<string, string> = {
   arcade: '#ff2e88',
   tienda_retro: '#2ee6d6',
   tcg_mesa: '#f5a623',
@@ -32,9 +32,20 @@ const CATEGORY_COLORS = {
   comic_gaming: '#e91e8c',
 };
 
+type Location = {
+  id: string;
+  nombre: string;
+  categoria: string;
+  direccion: string;
+  lat: number;
+  lng: number;
+  descripcion: string | null;
+  imagen_url: string | null;
+};
+
 export default function LocationsMap() {
-  const [locations, setLocations] = useState([]);
-  const [selected, setSelected] = useState(null);
+  const [locations, setLocations] = useState<Location[]>([]);
+  const [selected, setSelected] = useState<Location | null>(null);
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
@@ -52,7 +63,7 @@ export default function LocationsMap() {
         return;
       }
 
-      const valid = data.filter(
+      const valid = (data as Location[]).filter(
         (loc) => typeof loc.lat === 'number' && typeof loc.lng === 'number'
       );
       setLocations(valid);
