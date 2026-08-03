@@ -1,361 +1,146 @@
-"use client";
+﻿import LocationsMap from './components/LocationsMap';
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+const CATEGORIES = [
+  { label: "Arcades", color: "#ff2e88" },
+  { label: "Tiendas Retro", color: "#2ee6d6" },
+  { label: "Cartas y Mesa", color: "#f5a623" },
+  { label: "LAN Centers", color: "#7d3c98" },
+  { label: "Bares con Torneos", color: "#2d7a4f" },
+  { label: "Comics Gaming", color: "#e91e8c" },
+];
 
-type EventItem = {
-  id: number | string;
-  nombre: string;
-  fecha: string;
-  hora: string | null;
-  hora_fin: string | null;
-  lugar: string;
-  ciudad: string;
-  categoria: string;
-  descripcion: string | null;
-  url: string;
-  imagen_url: string | null;
-};
-
-const CATEGORY_PILLS = ["Todos", "Gaming", "Pokemon", "Comic Con", "Esports", "Trading Cards", "Nintendo", "Anime"];
-
-function formatFecha(fecha: string): string {
-  return new Date(fecha + "T12:00:00").toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" }).replace(" de ", " ").replace(" de ", " ").replace(/[a-záéíóúüñ]+/i, (m) => m.charAt(0).toUpperCase() + m.slice(1));
-}
-
-const CATEGORY_COLOR: Record<string, string> = {
-  "Gaming":        "#1a5fa5",
-  "Pokemon":       "#f5a623",
-  "Comic Con":     "#c0392b",
-  "Esports":       "#7d3c98",
-  "Trading Cards": "#2d7a4f",
-  "Nintendo":      "#e4000f",
-  "Anime":         "#e91e8c",
-};
-
-const responsiveStyles = `
-  .bp-hero { padding: 64px 24px 56px; }
-  .bp-events { padding: 48px 24px; }
-  .bp-events-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; gap: 8px; }
-  .bp-pills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-  @media (max-width: 639px) {
-    .bp-hero { padding: 36px 16px 40px; }
-    .bp-events { padding: 28px 16px; }
-    .bp-events-header { flex-direction: column; align-items: flex-start; }
-    .bp-pills { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-    .bp-pills::-webkit-scrollbar { display: none; }
-    .bp-pills button { flex-shrink: 0; }
-  }
-`;
-
-export default function Page() {
-  const [events, setEvents] = useState<EventItem[]>([]);
-  const [eventsLoading, setEventsLoading] = useState(true);
-  const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  useEffect(() => {
-    supabase
-      .from("Eventos")
-      .select("id, nombre, fecha, hora, hora_fin, lugar, ciudad, categoria, descripcion, url, imagen_url")
-      .order("fecha", { ascending: true })
-      .then(({ data, error }) => {
-        if (error) console.error("[eventos]", error.message);
-        setEvents(Array.isArray(data) ? data : []);
-        setEventsLoading(false);
-      });
-  }, []);
-
-  const today = new Date().toISOString().split("T")[0];
-
-  const filteredEvents = Array.isArray(events)
-    ? events
-        .filter((e) => {
-          if (e.fecha < today) return false;
-          if (categoryFilter && e.categoria?.toLowerCase().trim() !== categoryFilter.toLowerCase().trim()) return false;
-          if (searchQuery.length >= 2 && !e.nombre.toLowerCase().includes(searchQuery.toLowerCase())) return false;
-          return true;
-        })
-        .sort((a, b) => a.fecha.localeCompare(b.fecha))
-    : [];
-
+export default function HomePage() {
   return (
-    <div style={{ minHeight: "100vh", background: "#ffffff", color: "#1a1a1a" }}>
-      <style>{responsiveStyles}</style>
-
-      {/* ── Navbar ── */}
-      <nav style={{
-        background: "#ffffff",
-        borderBottom: "1px solid #e5e7eb",
-        padding: "0 16px", height: "60px",
-        display: "flex", alignItems: "center",
-        position: "sticky", top: 0, zIndex: 10,
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span style={{
-            fontSize: "20px", fontWeight: 900, color: "#ffffff",
-            background: "#1a0533", borderRadius: "8px", padding: "4px 10px",
-            letterSpacing: "-0.5px",
-          }}>BP</span>
-          <span style={{ fontSize: "14px", fontWeight: 600, color: "#1a0533" }}>BajoPerfil</span>
-        </div>
+    <div style={{ minHeight: "100vh", background: "#0f0b1a", color: "#f5f3ff" }}>
+      <nav
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          padding: "20px 24px",
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "var(--font-geist-mono)",
+            fontSize: "13px",
+            fontWeight: 700,
+            color: "#0f0b1a",
+            background: "#ff2e88",
+            borderRadius: "6px",
+            padding: "4px 9px",
+            letterSpacing: "-0.02em",
+          }}
+        >
+          BP
+        </span>
+        <span style={{ fontSize: "14px", fontWeight: 600, color: "#f5f3ff" }}>
+          BajoPerfil
+        </span>
       </nav>
 
-      {/* ── Hero ── */}
-      <section className="bp-hero" style={{ background: "#1a0533" }}>
-        <div style={{ maxWidth: "720px", margin: "0 auto", textAlign: "center" }}>
-          <p style={{
-            fontSize: "11px", fontWeight: 700, letterSpacing: "0.15em",
-            textTransform: "uppercase", color: "rgba(255,255,255,0.45)",
+      <section style={{ padding: "56px 24px 32px", textAlign: "center" }}>
+        <p
+          style={{
+            fontFamily: "var(--font-geist-mono)",
+            fontSize: "11px",
+            fontWeight: 600,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "#2ee6d6",
             margin: "0 0 14px",
-          }}>
-            Eventos gaming en español
-          </p>
-          <h1 style={{
-            fontSize: "clamp(28px, 7vw, 56px)", fontWeight: 900,
-            color: "#ffffff", lineHeight: 1.1, margin: "0 0 12px",
-            letterSpacing: "-1px",
-          }}>
-            Encuentra tu próximo evento
-          </h1>
-          <p style={{
-            fontSize: "14px", color: "rgba(255,255,255,0.5)",
-            margin: "0 0 28px", fontWeight: 500,
-          }}>
-            Torneos · Comic Con · Pokemon · Esports · New York City
-          </p>
+          }}
+        >
+          Directorio gaming en español
+        </p>
+        <h1
+          style={{
+            fontSize: "clamp(28px, 6vw, 48px)",
+            fontWeight: 800,
+            lineHeight: 1.1,
+            letterSpacing: "-0.02em",
+            margin: "0 0 12px",
+          }}
+        >
+          Locaciones gaming en NYC
+        </h1>
+        <p
+          style={{
+            fontSize: "15px",
+            color: "#9a8fc2",
+            maxWidth: "480px",
+            margin: "0 auto",
+          }}
+        >
+          Arcades, tiendas retro, LAN centers y más lugares gaming en toda la ciudad.
+        </p>
+      </section>
 
-          <div style={{ position: "relative", maxWidth: "560px", margin: "0 auto 24px" }}>
-            <svg style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}
-              width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-            <input
-              type="text"
-              placeholder="Busca un evento, juego o ciudad..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "10px",
+          justifyContent: "center",
+          padding: "0 24px 32px",
+        }}
+      >
+        {CATEGORIES.map((cat) => (
+          <span
+            key={cat.label}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "7px",
+              fontSize: "12px",
+              fontWeight: 600,
+              color: "#f5f3ff",
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: "999px",
+              padding: "6px 12px 6px 8px",
+            }}
+          >
+            <span
               style={{
-                width: "100%", boxSizing: "border-box",
-                background: "#ffffff", border: "none",
-                borderRadius: "12px", padding: "16px 48px",
-                color: "#1a1a1a", fontSize: "16px", outline: "none",
-                boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+                width: "9px",
+                height: "9px",
+                borderRadius: "50%",
+                background: cat.color,
+                flexShrink: 0,
               }}
             />
-          </div>
+            {cat.label}
+          </span>
+        ))}
+      </div>
 
-          <div className="bp-pills">
-            {CATEGORY_PILLS.map((cat) => {
-              const active = cat === "Todos" ? !categoryFilter : categoryFilter === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => {
-                    setCategoryFilter(cat === "Todos" ? null : cat);
-                    document.getElementById("eventos")?.scrollIntoView({ behavior: "smooth", block: "start" });
-                  }}
-                  style={{
-                    padding: "9px 16px", fontSize: "13px", fontWeight: 600,
-                    borderRadius: "999px", cursor: "pointer", border: "2px solid",
-                    background: active ? "#ffffff" : "rgba(255,255,255,0.08)",
-                    color: active ? "#1a0533" : "rgba(255,255,255,0.7)",
-                    borderColor: active ? "#ffffff" : "rgba(255,255,255,0.15)",
-                    transition: "all 0.15s",
-                    boxShadow: active ? "0 2px 8px rgba(0,0,0,0.25)" : "none",
-                    minHeight: "40px",
-                  }}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
+      <section style={{ padding: "0 24px 64px" }}>
+        <div
+          style={{
+            maxWidth: "1000px",
+            margin: "0 auto",
+            borderRadius: "16px",
+            border: "1px solid rgba(255,46,136,0.35)",
+            boxShadow: "0 0 0 1px rgba(46,230,214,0.08), 0 20px 60px rgba(0,0,0,0.5)",
+            overflow: "hidden",
+          }}
+        >
+          <LocationsMap />
         </div>
       </section>
 
-      {/* ── AdSense Top ── */}
-      <div id="adsense-top" style={{
-        background: "#f5f5f5",
-        borderTop: "1px solid #ebebeb",
-        borderBottom: "1px solid #ebebeb",
-        padding: "12px 16px",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        minHeight: "90px",
-      }}>
-        <div style={{
-          width: "100%", maxWidth: "728px", minWidth: "min(728px, 100%)",
-          minHeight: "90px",
-          display: "flex", alignItems: "center", justifyContent: "center",
-        }}>
-          <span style={{ fontSize: "11px", color: "#c0c0c0", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-            Publicidad
-          </span>
-        </div>
-      </div>
-
-      {/* ── Sección Eventos ── */}
-      <section id="eventos" className="bp-events" style={{ background: "#ffffff" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div className="bp-events-header">
-            <h2 style={{ fontSize: "clamp(18px, 4vw, 22px)", fontWeight: 800, color: "#111827", margin: 0 }}>
-              {categoryFilter ? `${categoryFilter} · New York City` : "Próximos eventos en New York City"}
-            </h2>
-            {!eventsLoading && (
-              <span style={{ fontSize: "13px", color: "#6b7280", flexShrink: 0 }}>
-                {filteredEvents.length} evento{filteredEvents.length !== 1 ? "s" : ""}
-              </span>
-            )}
-          </div>
-
-          {eventsLoading && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} style={{ background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: "12px", overflow: "hidden" }}>
-                  <div className="animate-pulse" style={{ height: "180px", background: "#e5e7eb" }} />
-                  <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: "10px" }}>
-                    <div className="animate-pulse" style={{ height: "12px", background: "#e5e7eb", borderRadius: "4px", width: "40%" }} />
-                    <div className="animate-pulse" style={{ height: "16px", background: "#e5e7eb", borderRadius: "4px", width: "85%" }} />
-                    <div className="animate-pulse" style={{ height: "12px", background: "#e5e7eb", borderRadius: "4px", width: "60%" }} />
-                    <div className="animate-pulse" style={{ height: "44px", background: "#e5e7eb", borderRadius: "8px", marginTop: "8px" }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {!eventsLoading && filteredEvents.length === 0 && (
-            <div style={{ textAlign: "center", padding: "80px 0" }}>
-              <p style={{ fontSize: "15px", margin: 0, color: "#6b7280" }}>
-                {categoryFilter
-                  ? "No hay eventos próximos en esta categoría. Vuelve pronto."
-                  : "No hay eventos próximos. Vuelve pronto."}
-              </p>
-            </div>
-          )}
-
-          {!eventsLoading && filteredEvents.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filteredEvents.map((event) => {
-                const catColor = CATEGORY_COLOR[event.categoria] ?? "#1a5fa5";
-                return (
-                  <Link key={event.id} href={`/eventos/${event.id}`} style={{ textDecoration: "none" }}>
-                  <article style={{
-                    background: "#ffffff", border: "1px solid #e5e7eb",
-                    borderRadius: "12px", overflow: "hidden",
-                    display: "flex", flexDirection: "column",
-                    boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
-                    cursor: "pointer", height: "100%",
-                  }}>
-                    <div style={{ height: "180px", position: "relative", background: "#f3f4f6", flexShrink: 0 }}>
-                      {event.imagen_url ? (
-                        <Image src={event.imagen_url} alt={event.nombre} fill
-                          style={{ objectFit: "cover", objectPosition: "center" }} unoptimized />
-                      ) : (
-                        <div style={{
-                          width: "100%", height: "100%",
-                          background: `linear-gradient(135deg, ${catColor}22, ${catColor}55)`,
-                          display: "flex", alignItems: "center", justifyContent: "center",
-                        }}>
-                          <span style={{ fontSize: "40px" }}>🎮</span>
-                        </div>
-                      )}
-                      <span style={{
-                        position: "absolute", bottom: "10px", left: "10px",
-                        background: catColor, color: "#ffffff",
-                        fontSize: "10px", fontWeight: 700, letterSpacing: "0.05em",
-                        padding: "3px 8px", borderRadius: "4px",
-                        textTransform: "uppercase" as const,
-                      }}>
-                        {event.categoria}
-                      </span>
-                    </div>
-
-                    <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: "6px", flex: 1 }}>
-                      <p style={{ fontSize: "13px", fontWeight: 600, color: "#ea580c", margin: 0 }}>
-                        {formatFecha(event.fecha)}
-                        {event.hora && (
-                          <span style={{ fontWeight: 400, color: "#f97316" }}>
-                            {" · "}{event.hora}{event.hora_fin ? ` - ${event.hora_fin}` : ""}
-                          </span>
-                        )}
-                      </p>
-                      <h3 style={{
-                        fontSize: "15px", fontWeight: 700, color: "#111827",
-                        lineHeight: 1.4, margin: 0,
-                        display: "-webkit-box", WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical" as const, overflow: "hidden",
-                      }}>
-                        {event.nombre}
-                      </h3>
-                      {event.lugar && (
-                        <p style={{ fontSize: "13px", color: "#6b7280", margin: 0 }}>
-                          {event.lugar} · New York City
-                        </p>
-                      )}
-
-                      <div style={{ flex: 1 }} />
-
-                      <div style={{
-                        display: "block", textAlign: "center",
-                        marginTop: "12px", padding: "13px 0",
-                        background: "#1a0533", color: "#ffffff",
-                        fontSize: "14px", fontWeight: 600,
-                        borderRadius: "8px",
-                      }}>
-                        Ver evento →
-                      </div>
-                    </div>
-                  </article>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* ── AdSense Bottom ── */}
-      <div id="adsense-bottom" style={{
-        background: "#f5f5f5",
-        borderTop: "1px solid #ebebeb",
-        borderBottom: "1px solid #ebebeb",
-        padding: "12px 16px",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        minHeight: "90px",
-      }}>
-        <div style={{
-          width: "100%", maxWidth: "728px", minWidth: "min(728px, 100%)",
-          minHeight: "90px",
-          display: "flex", alignItems: "center", justifyContent: "center",
-        }}>
-          <span style={{ fontSize: "11px", color: "#c0c0c0", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-            Publicidad
-          </span>
-        </div>
-      </div>
-
-      {/* ── Footer ── */}
-      <footer style={{ background: "#1a0533", padding: "36px 24px", textAlign: "center" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <span style={{
-            fontSize: "20px", fontWeight: 900, color: "#ffffff",
-            background: "rgba(255,255,255,0.1)", borderRadius: "8px", padding: "4px 10px",
-          }}>BP</span>
-          <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", margin: "12px 0 0" }}>
-            BajoPerfil · Eventos gaming en New York City
-          </p>
-          <p style={{ margin: "10px 0 0", display: "flex", gap: "16px", justifyContent: "center" }}>
-            <Link href="/acerca-de" style={{ fontSize: "12px", color: "rgba(255,255,255,0.3)", textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.15)" }}>
-              Acerca de
-            </Link>
-            <Link href="/politica-de-privacidad" style={{ fontSize: "12px", color: "rgba(255,255,255,0.3)", textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.15)" }}>
-              Política de Privacidad
-            </Link>
-          </p>
-        </div>
+      <footer
+        style={{
+          borderTop: "1px solid rgba(255,255,255,0.08)",
+          padding: "28px 24px",
+          textAlign: "center",
+        }}
+      >
+        <p style={{ fontSize: "12px", color: "#6b5f8f", margin: 0 }}>
+          BajoPerfil · Locaciones gaming en New York City
+        </p>
       </footer>
     </div>
   );

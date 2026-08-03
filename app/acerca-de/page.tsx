@@ -1,109 +1,151 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+import LocationsMap from './components/LocationsMap';
 
-export const metadata: Metadata = {
-  title: "Acerca de",
-  description: "BajoPerfil nació de una necesidad real: encontrar eventos gaming en Nueva York, pero en español. Conoce nuestra historia.",
-};
+const CATEGORIES = [
+  { label: "Arcades", color: "#ff2e88" },
+  { label: "Tiendas Retro", color: "#2ee6d6" },
+  { label: "Cartas y Mesa", color: "#f5a623" },
+  { label: "LAN Centers", color: "#7d3c98" },
+  { label: "Bares con Torneos", color: "#2d7a4f" },
+  { label: "Comics Gaming", color: "#e91e8c" },
+];
 
-export default function AcercaDe() {
+export default function HomePage() {
   return (
-    <div style={{ minHeight: "100vh", background: "#ffffff", color: "#1a1a1a" }}>
-
-      {/* ── Navbar ── */}
-      <nav style={{
-        background: "#ffffff", borderBottom: "1px solid #e5e7eb",
-        padding: "0 16px", height: "60px",
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        position: "sticky", top: 0, zIndex: 10,
-      }}>
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none" }}>
-          <span style={{
-            fontSize: "20px", fontWeight: 900, color: "#ffffff",
-            background: "#1a0533", borderRadius: "8px", padding: "4px 10px",
-            letterSpacing: "-0.5px",
-          }}>BP</span>
-          <span style={{ fontSize: "14px", fontWeight: 600, color: "#1a0533" }}>BajoPerfil</span>
-        </Link>
-        <Link href="/" style={{
-          display: "inline-flex", alignItems: "center",
-          padding: "8px 16px", borderRadius: "8px",
-          border: "1px solid #e5e7eb", background: "#ffffff",
-          fontSize: "13px", fontWeight: 600, color: "#374151",
-          textDecoration: "none",
-        }}>
-          ← Volver
-        </Link>
+    <div style={{ minHeight: "100vh", background: "#0f0b1a", color: "#f5f3ff" }}>
+      {/* Header */}
+      <nav
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          padding: "20px 24px",
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "var(--font-geist-mono)",
+            fontSize: "13px",
+            fontWeight: 700,
+            color: "#0f0b1a",
+            background: "#ff2e88",
+            borderRadius: "6px",
+            padding: "4px 9px",
+            letterSpacing: "-0.02em",
+          }}
+        >
+          BP
+        </span>
+        <span style={{ fontSize: "14px", fontWeight: 600, color: "#f5f3ff" }}>
+          BajoPerfil
+        </span>
       </nav>
 
-      {/* ── Header ── */}
-      <div style={{ background: "#1a0533", padding: "48px 24px 40px" }}>
-        <div style={{ maxWidth: "760px", margin: "0 auto" }}>
-          <h1 style={{
-            fontSize: "clamp(24px, 4vw, 36px)", fontWeight: 900,
-            color: "#ffffff", margin: 0, letterSpacing: "-0.5px",
-          }}>
-            Acerca de BajoPerfil
-          </h1>
-        </div>
+      {/* Hero */}
+      <section style={{ padding: "56px 24px 32px", textAlign: "center" }}>
+        <p
+          style={{
+            fontFamily: "var(--font-geist-mono)",
+            fontSize: "11px",
+            fontWeight: 600,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "#2ee6d6",
+            margin: "0 0 14px",
+          }}
+        >
+          Directorio gaming en español
+        </p>
+        <h1
+          style={{
+            fontSize: "clamp(28px, 6vw, 48px)",
+            fontWeight: 800,
+            lineHeight: 1.1,
+            letterSpacing: "-0.02em",
+            margin: "0 0 12px",
+          }}
+        >
+          Locaciones gaming en NYC
+        </h1>
+        <p
+          style={{
+            fontSize: "15px",
+            color: "#9a8fc2",
+            maxWidth: "480px",
+            margin: "0 auto",
+          }}
+        >
+          Arcades, tiendas retro, LAN centers y más lugares gaming en toda la ciudad.
+        </p>
+      </section>
+
+      {/* Category legend — estilo líneas de subte */}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "10px",
+          justifyContent: "center",
+          padding: "0 24px 32px",
+        }}
+      >
+        {CATEGORIES.map((cat) => (
+          <span
+            key={cat.label}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "7px",
+              fontSize: "12px",
+              fontWeight: 600,
+              color: "#f5f3ff",
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: "999px",
+              padding: "6px 12px 6px 8px",
+            }}
+          >
+            <span
+              style={{
+                width: "9px",
+                height: "9px",
+                borderRadius: "50%",
+                background: cat.color,
+                flexShrink: 0,
+              }}
+            />
+            {cat.label}
+          </span>
+        ))}
       </div>
 
-      {/* ── Contenido ── */}
-      <main style={{ maxWidth: "680px", margin: "0 auto", padding: "52px 24px 80px" }}>
-
-        <p style={{ fontSize: "17px", color: "#111827", lineHeight: 1.85, margin: "0 0 28px", fontWeight: 500 }}>
-          BajoPerfil nació de algo muy sencillo: querer buscar eventos gaming en Nueva York y no encontrar nada en español. Todo en inglés, todo disperso, todo en tres sitios diferentes. Decidimos resolver eso.
-        </p>
-
-        <p style={{ fontSize: "16px", color: "#374151", lineHeight: 1.85, margin: "0 0 28px" }}>
-          Vivir en Nueva York significa moverse en inglés todo el día. Pero hay algo especial en encontrar tu idioma en el lugar menos esperado. El español no es solo comunicación — es familiaridad, es confianza, es sentirte menos extranjero en una ciudad que puede sentirse enorme.
-        </p>
-
-        <p style={{ fontSize: "16px", color: "#374151", lineHeight: 1.85, margin: "0 0 28px" }}>
-          La propuesta de BajoPerfil es simple: todos los eventos gaming de NYC en un solo lugar, ordenados por fecha, con links oficiales, en español. Torneos, Comic Con, Pokemon, Esports — si pasa en Nueva York y tiene que ver con gaming, lo vas a encontrar aquí. Nueva York es un mar de culturas y eso lo hace aún más interesante. No hay un solo tipo de gamer acá.
-        </p>
-
-        <p style={{ fontSize: "16px", color: "#374151", lineHeight: 1.85, margin: "0 0 48px" }}>
-          El futuro de BajoPerfil incluye noticias de la industria, una comunidad donde conectar con otros gamers, y expansión a otras ciudades — Miami, Los Ángeles, Chicago — donde también hay gente que quiere encontrar su espacio en su idioma. Por ahora, empezamos por casa.
-        </p>
-
-        <div style={{
-          borderTop: "2px solid #f3f4f6", paddingTop: "32px",
-          display: "flex", alignItems: "center", gap: "16px",
-        }}>
-          <div style={{
-            width: "44px", height: "44px", borderRadius: "10px",
-            background: "#1a0533", display: "flex", alignItems: "center", justifyContent: "center",
-            flexShrink: 0,
-          }}>
-            <span style={{ fontSize: "18px", fontWeight: 900, color: "#ffffff" }}>BP</span>
-          </div>
-          <div>
-            <p style={{ fontSize: "14px", fontWeight: 700, color: "#111827", margin: "0 0 2px" }}>BajoPerfil</p>
-            <p style={{ fontSize: "13px", color: "#9ca3af", margin: 0 }}>Eventos gaming en español · Nueva York</p>
-          </div>
+      {/* Mapa — tarjeta tipo pantalla de arcade */}
+      <section style={{ padding: "0 24px 64px" }}>
+        <div
+          style={{
+            maxWidth: "1000px",
+            margin: "0 auto",
+            borderRadius: "16px",
+            border: "1px solid rgba(255,46,136,0.35)",
+            boxShadow: "0 0 0 1px rgba(46,230,214,0.08), 0 20px 60px rgba(0,0,0,0.5)",
+            overflow: "hidden",
+          }}
+        >
+          <LocationsMap />
         </div>
-      </main>
+      </section>
 
-      {/* ── Footer ── */}
-      <footer style={{ background: "#1a0533", padding: "36px 24px", textAlign: "center" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <span style={{
-            fontSize: "20px", fontWeight: 900, color: "#ffffff",
-            background: "rgba(255,255,255,0.1)", borderRadius: "8px", padding: "4px 10px",
-          }}>BP</span>
-          <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", margin: "12px 0 0" }}>
-            BajoPerfil · Eventos gaming en New York City
-          </p>
-          <p style={{ margin: "10px 0 0", display: "flex", gap: "16px", justifyContent: "center" }}>
-            <Link href="/acerca-de" style={{ fontSize: "12px", color: "rgba(255,255,255,0.3)", textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.15)" }}>
-              Acerca de
-            </Link>
-            <Link href="/politica-de-privacidad" style={{ fontSize: "12px", color: "rgba(255,255,255,0.3)", textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.15)" }}>
-              Política de Privacidad
-            </Link>
-          </p>
-        </div>
+      {/* Footer */}
+      <footer
+        style={{
+          borderTop: "1px solid rgba(255,255,255,0.08)",
+          padding: "28px 24px",
+          textAlign: "center",
+        }}
+      >
+        <p style={{ fontSize: "12px", color: "#6b5f8f", margin: 0 }}>
+          BajoPerfil · Locaciones gaming en New York City
+        </p>
       </footer>
     </div>
   );

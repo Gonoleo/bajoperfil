@@ -15,40 +15,40 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "BajoPerfil - Eventos Gaming en Español",
+    default: "BajoPerfil - Locaciones Gaming en NYC",
     template: "%s | BajoPerfil",
   },
   description:
-    "Encuentra los mejores eventos gaming en New York City. Torneos Pokemon, Comic Con, Esports y más. Eventos gaming en español.",
+    "Encuentra los mejores lugares gaming en New York City. Arcades, tiendas retro, torneos y más. Directorio gaming en español.",
   keywords: [
-    "eventos gaming NYC",
-    "torneos pokemon nueva york",
-    "comic con nueva york",
-    "esports new york",
-    "gaming events new york city",
+    "locaciones gaming NYC",
+    "arcades nueva york",
+    "tiendas retro gaming NYC",
+    "LAN center new york",
+    "gaming lounges new york city",
     "eventos geek nueva york",
   ],
   openGraph: {
     type: "website",
     locale: "es_US",
     siteName: "BajoPerfil",
-    title: "BajoPerfil - Eventos Gaming en Español",
+    title: "BajoPerfil - Locaciones Gaming en NYC",
     description:
-      "Encuentra los mejores eventos gaming en New York City. Torneos Pokemon, Comic Con, Esports y más.",
+      "Encuentra los mejores lugares gaming en New York City. Arcades, tiendas retro, torneos y más.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "BajoPerfil - Eventos Gaming NYC",
+        alt: "BajoPerfil - Locaciones Gaming NYC",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "BajoPerfil - Eventos Gaming en Español",
+    title: "BajoPerfil - Locaciones Gaming en NYC",
     description:
-      "Encuentra los mejores eventos gaming en New York City. Torneos Pokemon, Comic Con, Esports y más.",
+      "Encuentra los mejores lugares gaming en New York City. Arcades, tiendas retro, torneos y más.",
     images: ["/og-image.png"],
   },
 };
