@@ -50,6 +50,15 @@ type Props = {
   searchQuery: string;
 };
 
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
 export default function LocationsMap({ categoryFilter, searchQuery }: Props) {
   const [locations, setLocations] = useState<Location[]>([]);
   const [selected, setSelected] = useState<Location | null>(null);
@@ -155,6 +164,9 @@ export default function LocationsMap({ categoryFilter, searchQuery }: Props) {
               <p style={{ fontSize: "12px", color: "#9a8fc2", margin: "0 0 10px", lineHeight: 1.4 }}>
                 {selected.direccion}
               </p>
+              <a href={"/locations/" + slugify(selected.nombre)} style={{ display: "block", textAlign: "center", fontSize: "12px", fontWeight: 600, color: "#f5f3ff", background: "#ff2e88", borderRadius: "6px", padding: "8px 0", textDecoration: "none", marginBottom: "8px" }}>
+                Ver más en BajoPerfil
+              </a>
               <a href={"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(selected.nombre + " " + selected.direccion)} target="_blank" rel="noopener noreferrer" style={{ display: "block", textAlign: "center", fontSize: "12px", fontWeight: 600, color: "#0f0b1a", background: "#2ee6d6", borderRadius: "6px", padding: "8px 0", textDecoration: "none" }}>
                 Ver reviews en Google Maps
               </a>
