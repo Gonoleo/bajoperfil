@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     template: "%s | BajoPerfil",
   },
   description:
-    "Encuentra los mejores lugares gaming en New York City. Arcades, tiendas retro, torneos y más. Directorio gaming en español.",
+    "Encuentra los mejores lugares gaming en New York City. Arcades, tiendas retro, torneos y mas. Directorio gaming en espanol.",
   keywords: [
     "locaciones gaming NYC",
     "arcades nueva york",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     siteName: "BajoPerfil",
     title: "BajoPerfil - Locaciones Gaming en NYC",
     description:
-      "Encuentra los mejores lugares gaming en New York City. Arcades, tiendas retro, torneos y más.",
+      "Encuentra los mejores lugares gaming en New York City. Arcades, tiendas retro, torneos y mas.",
     images: [
       {
         url: "/og-image.png",
@@ -48,8 +48,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "BajoPerfil - Locaciones Gaming en NYC",
     description:
-      "Encuentra los mejores lugares gaming en New York City. Arcades, tiendas retro, torneos y más.",
+      "Encuentra los mejores lugares gaming en New York City. Arcades, tiendas retro, torneos y mas.",
     images: ["/og-image.png"],
+  },
+  verification: {
+    google: "AOpq-gEKWX2XcIBvaRdxsDcdrPnF8ZjUd0ZxZv_oqH8",
   },
 };
 
