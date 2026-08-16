@@ -9,7 +9,7 @@ const CATEGORIES = [
   { key: "tcg_mesa", label: "Cartas y Mesa", color: "#f5a623" },
   { key: "lan_center", label: "LAN Centers", color: "#7d3c98" },
   { key: "bar_torneos", label: "Bares con Torneos", color: "#2d7a4f" },
-  { key: "comic_gaming", label: "Comics Gaming", color: "#e91e8c" },
+  { key: "comic_gaming", label: "Comics Gaming", color: "#3d5afe" },
 ];
 
 const responsiveStyles = ".bp-hero { padding: 56px 24px 32px; } .bp-search-wrap { max-width: 480px; margin: 0 auto 24px; padding: 0 24px; } .bp-pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 24px 32px; } @media (max-width: 640px) { .bp-hero { padding: 36px 16px 24px; } .bp-search-wrap { padding: 0 16px; } .bp-pills { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding: 0 16px 24px; -webkit-overflow-scrolling: touch; } .bp-pills button { flex-shrink: 0; } .bp-map-section { padding: 0 12px 40px !important; } }";

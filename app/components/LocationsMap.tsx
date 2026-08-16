@@ -31,7 +31,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   tcg_mesa: "#f5a623",
   lan_center: "#7d3c98",
   bar_torneos: "#2d7a4f",
-  comic_gaming: "#e91e8c",
+  comic_gaming: "#3d5afe",
 };
 
 type Location = {
