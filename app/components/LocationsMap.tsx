@@ -107,6 +107,8 @@ export default function LocationsMap({ categoryFilter, searchQuery }: Props) {
     return true;
   });
 
+  const noResults = !!(searchQuery.trim().length >= 2 && filtered.length === 0 && locations.length > 0);
+
   useEffect(() => {
     if (!map || !isLoaded) return;
 
@@ -150,52 +152,62 @@ export default function LocationsMap({ categoryFilter, searchQuery }: Props) {
   if (!isLoaded) return <MapSkeleton />;
 
   return (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={centerNYC}
-      zoom={11}
-      onLoad={(m) => setMap(m)}
-      options={{
-        mapId: process.env.NEXT_PUBLIC_GOOGLE_MAPS_ID || "",
-        colorScheme: google.maps.ColorScheme.DARK,
-      }}
-    >
-      {selected && (
-        <InfoWindow
-          position={{ lat: selected.lat, lng: selected.lng }}
-          onCloseClick={() => setSelected(null)}
-        >
-          <div className="w-[220px] overflow-hidden rounded-xl bg-[#0f0b1a]">
-            {selected.imagen_url && (
-              <img
-                src={selected.imagen_url}
-                alt={selected.nombre}
-                className="h-[110px] w-full object-cover block"
-              />
-            )}
-            <div className="p-3">
-              <span
-                className="mb-2 inline-block rounded px-[7px] py-[3px] text-[10px] font-bold uppercase tracking-wide text-[#0f0b1a]"
-                style={{ background: CATEGORY_COLORS[selected.categoria] || "#ff2e88" }}
-              >
-                {CATEGORY_LABELS[selected.categoria] || selected.categoria}
-              </span>
-              <h3 className="mb-1 text-sm font-bold leading-tight text-[#f5f3ff]">
-                {selected.nombre}
-              </h3>
-              <p className="mb-2.5 text-xs leading-snug text-[#9a8fc2]">
-                {selected.direccion}
-              </p>
-              <a href={"/locations/" + slugify(selected.nombre)} className="mb-2 block rounded-md bg-[#ff2e88] py-2 text-center text-xs font-semibold text-[#f5f3ff] no-underline transition-opacity duration-150 hover:opacity-85">
-                Ver mas en BajoPerfil
-              </a>
-              <a href={"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(selected.nombre + " " + selected.direccion)} target="_blank" rel="noopener noreferrer" className="block rounded-md bg-[#2ee6d6] py-2 text-center text-xs font-semibold text-[#0f0b1a] no-underline transition-opacity duration-150 hover:opacity-85">
-                Ver reviews en Google Maps
-              </a>
+    <div className="relative">
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={centerNYC}
+        zoom={11}
+        onLoad={(m) => setMap(m)}
+        options={{
+          mapId: process.env.NEXT_PUBLIC_GOOGLE_MAPS_ID || "",
+          colorScheme: google.maps.ColorScheme.DARK,
+        }}
+      >
+        {selected && (
+          <InfoWindow
+            position={{ lat: selected.lat, lng: selected.lng }}
+            onCloseClick={() => setSelected(null)}
+          >
+            <div className="w-[220px] overflow-hidden rounded-xl bg-[#0f0b1a]">
+              {selected.imagen_url && (
+                <img
+                  src={selected.imagen_url}
+                  alt={selected.nombre}
+                  className="h-[110px] w-full object-cover block"
+                />
+              )}
+              <div className="p-3">
+                <span
+                  className="mb-2 inline-block rounded px-[7px] py-[3px] text-[10px] font-bold uppercase tracking-wide text-[#0f0b1a]"
+                  style={{ background: CATEGORY_COLORS[selected.categoria] || "#ff2e88" }}
+                >
+                  {CATEGORY_LABELS[selected.categoria] || selected.categoria}
+                </span>
+                <h3 className="mb-1 text-sm font-bold leading-tight text-[#f5f3ff]">
+                  {selected.nombre}
+                </h3>
+                <p className="mb-2.5 text-xs leading-snug text-[#9a8fc2]">
+                  {selected.direccion}
+                </p>
+                <a href={"/locations/" + slugify(selected.nombre)} className="mb-2 block rounded-md bg-[#ff2e88] py-2 text-center text-xs font-semibold text-[#f5f3ff] no-underline transition-opacity duration-150 hover:opacity-85">
+                  Ver mas en BajoPerfil
+                </a>
+                <a href={"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(selected.nombre + " " + selected.direccion)} target="_blank" rel="noopener noreferrer" className="block rounded-md bg-[#2ee6d6] py-2 text-center text-xs font-semibold text-[#0f0b1a] no-underline transition-opacity duration-150 hover:opacity-85">
+                  Ver reviews en Google Maps
+                </a>
+              </div>
             </div>
+          </InfoWindow>
+        )}
+      </GoogleMap>
+
+      {noResults && (
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[#0f0b1a]/70 backdrop-blur-sm">
+          <div className="pointer-events-auto rounded-xl border border-white/10 bg-[#1a1330] px-7 py-5 text-center shadow-xl">
+            <p className="font-mono text-lg font-bold text-[#f5f3ff]">👾 Sin resultados</p>
           </div>
-        </InfoWindow>
+        </div>
       )}
-    </GoogleMap>
+    </div>
   );
 }
