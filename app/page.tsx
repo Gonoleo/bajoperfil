@@ -12,51 +12,45 @@ const CATEGORIES = [
   { key: "comic_gaming", label: "Comics Gaming", color: "#3d5afe" },
 ];
 
-const responsiveStyles = ".bp-hero { padding: 56px 24px 32px; } .bp-search-wrap { max-width: 480px; margin: 0 auto 24px; padding: 0 24px; } .bp-pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 24px 32px; } @media (max-width: 640px) { .bp-hero { padding: 36px 16px 24px; } .bp-search-wrap { padding: 0 16px; } .bp-pills { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding: 0 16px 24px; -webkit-overflow-scrolling: touch; } .bp-pills button { flex-shrink: 0; } .bp-map-section { padding: 0 12px 40px !important; } }";
-
 export default function HomePage() {
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0f0b1a", color: "#f5f3ff" }}>
-      <style>{responsiveStyles}</style>
-
-      <nav style={{ display: "flex", alignItems: "center", gap: "10px", padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-        <span style={{ fontFamily: "var(--font-geist-mono)", fontSize: "13px", fontWeight: 700, color: "#0f0b1a", background: "#ff2e88", borderRadius: "6px", padding: "4px 9px", letterSpacing: "-0.02em" }}>
+    <div className="min-h-screen bg-[#0f0b1a] text-[#f5f3ff]">
+      <nav className="sticky top-0 z-20 flex items-center gap-2.5 border-b border-white/[0.08] bg-[#0f0b1a]/70 px-6 py-5 backdrop-blur-md">
+        <span className="rounded-md bg-[#ff2e88] px-[9px] py-1 font-mono text-[13px] font-bold tracking-tight text-[#0f0b1a]">
           BP
         </span>
-        <span style={{ fontSize: "14px", fontWeight: 600, color: "#f5f3ff" }}>
-          BajoPerfil
-        </span>
+        <span className="text-sm font-semibold text-[#f5f3ff]">BajoPerfil</span>
       </nav>
 
-      <section className="bp-hero" style={{ textAlign: "center" }}>
-        <p style={{ fontFamily: "var(--font-geist-mono)", fontSize: "11px", fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "#2ee6d6", margin: "0 0 14px" }}>
-          Directorio gaming en español
+      <section className="px-6 pb-8 pt-14 text-center sm:pt-14">
+        <p className="mb-3.5 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2ee6d6]">
+          Directorio gaming en espanol
         </p>
-        <h1 style={{ fontSize: "clamp(26px, 6vw, 48px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", margin: "0 0 12px" }}>
+        <h1 className="mb-3 text-[clamp(26px,6vw,48px)] font-extrabold leading-[1.1] tracking-tight">
           Locaciones gaming en NYC
         </h1>
-        <p style={{ fontSize: "15px", color: "#9a8fc2", maxWidth: "480px", margin: "0 auto" }}>
-          Arcades, tiendas retro, LAN centers y más lugares gaming en toda la ciudad.
+        <p className="mx-auto max-w-[480px] text-[15px] text-[#9a8fc2]">
+          Arcades, tiendas retro, LAN centers y mas lugares gaming en toda la ciudad.
         </p>
       </section>
 
-      <div className="bp-search-wrap">
+      <div className="mx-auto mb-6 max-w-[480px] px-6 sm:px-6">
         <input
           type="text"
           placeholder="Busca un lugar por nombre..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          style={{ width: "100%", boxSizing: "border-box", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "10px", padding: "12px 14px", color: "#f5f3ff", fontSize: "14px", outline: "none" }}
+          className="text-sm w-full rounded-[10px] border border-white/10 bg-white/[0.06] px-3.5 py-3 text-[#f5f3ff] outline-none transition-colors focus:border-[#2ee6d6]/50"
         />
       </div>
 
-      <div className="bp-pills">
+      <div className="scrollbar-none flex gap-2.5 overflow-x-auto px-4 pb-6 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-6">
         <button
           onClick={() => setCategoryFilter(null)}
-          style={{ display: "inline-flex", alignItems: "center", gap: "7px", fontSize: "12px", fontWeight: 600, color: !categoryFilter ? "#0f0b1a" : "#f5f3ff", background: !categoryFilter ? "#f5f3ff" : "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "999px", padding: "6px 14px", cursor: "pointer" }}
+          className={"text-xs flex shrink-0 items-center gap-1.5 rounded-full border border-white/[0.08] px-3.5 py-1.5 font-semibold transition-all duration-200 hover:brightness-110 " + (!categoryFilter ? "bg-[#f5f3ff] text-[#0f0b1a]" : "bg-white/[0.05] text-[#f5f3ff]")}
         >
           Todos
         </button>
@@ -66,24 +60,31 @@ export default function HomePage() {
             <button
               key={cat.key}
               onClick={() => setCategoryFilter(active ? null : cat.key)}
-              style={{ display: "inline-flex", alignItems: "center", gap: "7px", fontSize: "12px", fontWeight: 600, color: active ? "#0f0b1a" : "#f5f3ff", background: active ? cat.color : "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "999px", padding: "6px 12px 6px 8px", cursor: "pointer" }}
+              className="text-xs flex shrink-0 items-center gap-1.5 rounded-full border border-white/[0.08] py-1.5 pl-2 pr-3 font-semibold transition-all duration-200 hover:brightness-110"
+              style={{
+                background: active ? cat.color : "rgba(255,255,255,0.05)",
+                color: active ? "#0f0b1a" : "#f5f3ff",
+              }}
             >
-              <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: active ? "#0f0b1a" : cat.color, flexShrink: 0 }} />
+              <span
+                className="h-[9px] w-[9px] shrink-0 rounded-full"
+                style={{ background: active ? "#0f0b1a" : cat.color }}
+              />
               {cat.label}
             </button>
           );
         })}
       </div>
 
-      <section className="bp-map-section" style={{ padding: "0 24px 64px" }}>
-        <div style={{ maxWidth: "1000px", margin: "0 auto", borderRadius: "16px", border: "1px solid rgba(255,46,136,0.35)", boxShadow: "0 0 0 1px rgba(46,230,214,0.08), 0 20px 60px rgba(0,0,0,0.5)", overflow: "hidden" }}>
+      <section className="px-3 pb-16 sm:px-6">
+        <div className="mx-auto max-w-[1000px] overflow-hidden rounded-2xl border border-[#ff2e88]/35 shadow-[0_0_0_1px_rgba(46,230,214,0.08),0_20px_60px_rgba(0,0,0,0.5)] transition-opacity duration-300">
           <LocationsMap categoryFilter={categoryFilter} searchQuery={searchQuery} />
         </div>
       </section>
 
-      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.08)", padding: "28px 24px", textAlign: "center" }}>
-        <p style={{ fontSize: "12px", color: "#6b5f8f", margin: 0 }}>
-          BajoPerfil · Locaciones gaming en New York City
+      <footer className="border-t border-white/[0.08] px-6 py-7 text-center">
+        <p className="text-xs text-[#6b5f8f]">
+          BajoPerfil - Locaciones gaming en New York City
         </p>
       </footer>
     </div>

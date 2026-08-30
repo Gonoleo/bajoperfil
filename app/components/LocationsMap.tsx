@@ -59,6 +59,17 @@ function slugify(text: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
+function MapSkeleton() {
+  return (
+    <div className="h-[500px] w-full animate-pulse bg-gradient-to-br from-[#1a1330] to-[#0f0b1a] flex items-center justify-center">
+      <div className="flex flex-col items-center gap-3">
+        <div className="h-8 w-8 rounded-full border-2 border-[#ff2e88]/30 border-t-[#ff2e88] animate-spin" />
+        <p className="text-xs text-[#6b5f8f] tracking-wide">Cargando mapa...</p>
+      </div>
+    </div>
+  );
+}
+
 export default function LocationsMap({ categoryFilter, searchQuery }: Props) {
   const [locations, setLocations] = useState<Location[]>([]);
   const [selected, setSelected] = useState<Location | null>(null);
@@ -102,7 +113,7 @@ export default function LocationsMap({ categoryFilter, searchQuery }: Props) {
     markersRef.current.forEach((m) => (m.map = null));
     markersRef.current = [];
 
-    filtered.forEach((loc) => {
+    filtered.forEach((loc, index) => {
       const pin = document.createElement("div");
       pin.style.width = "18px";
       pin.style.height = "18px";
@@ -111,6 +122,9 @@ export default function LocationsMap({ categoryFilter, searchQuery }: Props) {
       pin.style.border = "2px solid #0f0b1a";
       pin.style.boxShadow = "0 0 8px rgba(255,46,136,0.6)";
       pin.style.cursor = "pointer";
+      pin.style.opacity = "0";
+      pin.style.transform = "scale(0.5)";
+      pin.style.transition = "opacity 0.35s ease, transform 0.35s ease";
 
       const marker = new google.maps.marker.AdvancedMarkerElement({
         map,
@@ -120,6 +134,11 @@ export default function LocationsMap({ categoryFilter, searchQuery }: Props) {
 
       marker.addListener("click", () => setSelected(loc));
       markersRef.current.push(marker);
+
+      setTimeout(() => {
+        pin.style.opacity = "1";
+        pin.style.transform = "scale(1)";
+      }, index * 25);
     });
 
     return () => {
@@ -128,7 +147,7 @@ export default function LocationsMap({ categoryFilter, searchQuery }: Props) {
     };
   }, [map, filtered, isLoaded]);
 
-  if (!isLoaded) return <p style={{ padding: "24px", color: "#9a8fc2" }}>Cargando mapa...</p>;
+  if (!isLoaded) return <MapSkeleton />;
 
   return (
     <GoogleMap
@@ -146,28 +165,31 @@ export default function LocationsMap({ categoryFilter, searchQuery }: Props) {
           position={{ lat: selected.lat, lng: selected.lng }}
           onCloseClick={() => setSelected(null)}
         >
-          <div style={{ width: "220px", background: "#0f0b1a", borderRadius: "10px", overflow: "hidden" }}>
+          <div className="w-[220px] overflow-hidden rounded-xl bg-[#0f0b1a]">
             {selected.imagen_url && (
               <img
                 src={selected.imagen_url}
                 alt={selected.nombre}
-                style={{ width: "100%", height: "110px", objectFit: "cover", display: "block" }}
+                className="h-[110px] w-full object-cover block"
               />
             )}
-            <div style={{ padding: "12px" }}>
-              <span style={{ display: "inline-block", fontSize: "10px", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", color: "#0f0b1a", background: CATEGORY_COLORS[selected.categoria] || "#ff2e88", borderRadius: "4px", padding: "3px 7px", marginBottom: "8px" }}>
+            <div className="p-3">
+              <span
+                className="mb-2 inline-block rounded px-[7px] py-[3px] text-[10px] font-bold uppercase tracking-wide text-[#0f0b1a]"
+                style={{ background: CATEGORY_COLORS[selected.categoria] || "#ff2e88" }}
+              >
                 {CATEGORY_LABELS[selected.categoria] || selected.categoria}
               </span>
-              <h3 style={{ fontSize: "14px", fontWeight: 700, color: "#f5f3ff", margin: "0 0 4px", lineHeight: 1.3 }}>
+              <h3 className="mb-1 text-sm font-bold leading-tight text-[#f5f3ff]">
                 {selected.nombre}
               </h3>
-              <p style={{ fontSize: "12px", color: "#9a8fc2", margin: "0 0 10px", lineHeight: 1.4 }}>
+              <p className="mb-2.5 text-xs leading-snug text-[#9a8fc2]">
                 {selected.direccion}
               </p>
-              <a href={"/locations/" + slugify(selected.nombre)} style={{ display: "block", textAlign: "center", fontSize: "12px", fontWeight: 600, color: "#f5f3ff", background: "#ff2e88", borderRadius: "6px", padding: "8px 0", textDecoration: "none", marginBottom: "8px" }}>
-                Ver más en BajoPerfil
+              <a href={"/locations/" + slugify(selected.nombre)} className="mb-2 block rounded-md bg-[#ff2e88] py-2 text-center text-xs font-semibold text-[#f5f3ff] no-underline transition-opacity duration-150 hover:opacity-85">
+                Ver mas en BajoPerfil
               </a>
-              <a href={"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(selected.nombre + " " + selected.direccion)} target="_blank" rel="noopener noreferrer" style={{ display: "block", textAlign: "center", fontSize: "12px", fontWeight: 600, color: "#0f0b1a", background: "#2ee6d6", borderRadius: "6px", padding: "8px 0", textDecoration: "none" }}>
+              <a href={"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(selected.nombre + " " + selected.direccion)} target="_blank" rel="noopener noreferrer" className="block rounded-md bg-[#2ee6d6] py-2 text-center text-xs font-semibold text-[#0f0b1a] no-underline transition-opacity duration-150 hover:opacity-85">
                 Ver reviews en Google Maps
               </a>
             </div>
